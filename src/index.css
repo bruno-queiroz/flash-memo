@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --aqua-blue: #2ec4b6;
+  --primary-yellow: #ff9f1c;
+}
+
+.dark-theme-animation {
+  animation: dark-theme 300ms forwards;
+}
+
+.light-theme-animation {
+  animation: light-theme 300ms forwards;
+}
+
+@keyframes dark-theme {
+  0% {
+    transform: translateX(100%);
+    background-color: var(--primary-yellow);
+  }
+
+  100% {
+    transform: translateX(0);
+    background-color: var(--aqua-blue);
+  }
+}
+
+@keyframes light-theme {
+  0% {
+    transform: translateX(0);
+    background-color: var(--aqua-blue);
+  }
+
+  100% {
+    transform: translateX(100%);
+    background-color: var(--primary-yellow);
+  }
+}
