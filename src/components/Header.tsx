@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   BsFillSunFill as SunIcon,
   BsFillMoonFill as MoonIcon,
@@ -10,7 +10,7 @@ const Header = () => {
     "(prefers-color-scheme: dark)"
   ).matches;
   const [isDarkMode, setIsDarkMode] = useState(isDarkThemePreferred);
-  console.log(isDarkMode);
+
   const changeTheme = () => {
     document.documentElement.classList.toggle("dark");
     setIsDarkMode(!isDarkMode);
@@ -18,12 +18,49 @@ const Header = () => {
   return (
     <header className="p-4">
       <div className="flex items-center justify-between">
-        <Link
-          to="/"
-          className="text-dark-blue dark:text-aqua-blue text-2xl font-bold"
-        >
-          Flash Memo
-        </Link>
+        <div className="flex gap-6 items-center">
+          <Link
+            to="/"
+            className="text-dark-blue dark:text-aqua-blue text-2xl font-bold"
+          >
+            Flash Memo
+          </Link>
+
+          <nav>
+            <ul className="flex items-center dark:text-white">
+              <li>
+                <NavLink
+                  to="/decks"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                      : ""
+                  }
+                >
+                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                    Decks
+                  </div>
+                </NavLink>
+              </li>
+              <li>
+                <Link
+                  to="/add"
+                  className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full"
+                >
+                  Add
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/search"
+                  className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full"
+                >
+                  Search
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         <div className="flex items-center gap-1">
           <MoonIcon className="text-dark-blue dark:text-white" />
