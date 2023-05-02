@@ -26,12 +26,12 @@ const Home = () => {
         </Link>
       </main>
       <section className="flex flex-col items-center text-center py-36 dark:bg-neutral-900 bg-light-blue px-4">
-        <h2 className="text-[1.6rem] font-bold text-gray-300 mb-4">
+        <h2 className="text-[1.6rem] font-bold text-white dark:text-gray-300 mb-4">
           A <span className="text-primary-yellow">Flash Cards</span> and{" "}
           <span className="text-primary-yellow">Spaced Repetetition</span> based
           app
         </h2>
-        <p className="text-left max-w-[500px] text-gray-300">
+        <p className="text-left max-w-[500px] text-white dark:text-gray-300">
           Spaced repetition helps you remember information more effectively and
           for longer periods of time by spacing out review sessions at optimal
           intervals based on your performance, saving time and improving
