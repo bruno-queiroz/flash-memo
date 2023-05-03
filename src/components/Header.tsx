@@ -43,20 +43,32 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/add"
-                  className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                      : ""
+                  }
                 >
-                  Add
-                </Link>
+                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                    Add
+                  </div>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/search"
-                  className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                      : ""
+                  }
                 >
-                  Search
-                </Link>
+                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                    Search
+                  </div>
+                </NavLink>
               </li>
             </ul>
           </nav>
