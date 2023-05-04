@@ -15,6 +15,12 @@
   animation: light-theme 300ms forwards;
 }
 
+@media (min-width: 640px) {
+  .reset-styles {
+    all: unset;
+  }
+}
+
 @keyframes dark-theme {
   0% {
     transform: translateX(100%);
