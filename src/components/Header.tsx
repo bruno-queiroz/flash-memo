@@ -47,7 +47,7 @@ const Header = () => {
               <CloseIcon />
             </button>
             <ul className="flex flex-col sm:flex-row dark:text-white">
-              <li>
+              <li onClick={() => setIsNavActive(false)}>
                 <NavLink
                   to="/decks"
                   className={({ isActive }) =>
@@ -61,7 +61,7 @@ const Header = () => {
                   </div>
                 </NavLink>
               </li>
-              <li>
+              <li onClick={() => setIsNavActive(false)}>
                 <NavLink
                   to="/add"
                   className={({ isActive }) =>
@@ -75,7 +75,7 @@ const Header = () => {
                   </div>
                 </NavLink>
               </li>
-              <li>
+              <li onClick={() => setIsNavActive(false)}>
                 <NavLink
                   to="/search"
                   className={({ isActive }) =>
