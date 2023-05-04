@@ -4,8 +4,11 @@ import {
   BsFillSunFill as SunIcon,
   BsFillMoonFill as MoonIcon,
 } from "react-icons/bs";
+import { IoCloseSharp as CloseIcon } from "react-icons/io5";
+import { GiHamburgerMenu as MenuIcon } from "react-icons/gi";
 
 const Header = () => {
+  const [isNavActive, setIsNavActive] = useState(false);
   const isDarkThemePreferred = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
@@ -26,8 +29,18 @@ const Header = () => {
             Flash Memo
           </Link>
 
-          <nav>
-            <ul className="flex items-center dark:text-white">
+          <nav
+            className={`${
+              isNavActive ? "translate-x-0" : "translate-x-[100%]"
+            } flex flex-col transition-transform p-4 fixed right-0 h-full w-[50%] z-10 top-0 bottom-0 dark:bg-neutral-900 bg-gray-200 sm:dark:bg-neutral-800 reset-styles`}
+          >
+            <button
+              className="text-primary-yellow text-3xl font-bold ml-auto sm:hidden"
+              onClick={() => setIsNavActive(false)}
+            >
+              <CloseIcon />
+            </button>
+            <ul className="flex flex-col sm:flex-row dark:text-white">
               <li>
                 <NavLink
                   to="/decks"
@@ -87,6 +100,13 @@ const Header = () => {
             />
           </button>
           <SunIcon className="text-dark-blue dark:text-white" />
+
+          <button
+            className="text-3xl text-dark-blue dark:text-gray-300 ml-4 sm:hidden"
+            onClick={() => setIsNavActive(true)}
+          >
+            <MenuIcon />
+          </button>
         </div>
       </div>
     </header>
