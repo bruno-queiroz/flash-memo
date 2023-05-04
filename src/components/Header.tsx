@@ -20,6 +20,12 @@ const Header = () => {
   };
   return (
     <header className="p-4">
+      <div
+        className={`${
+          isNavActive ? "block" : "hidden"
+        } fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-[rgb(0,0,0,0.7)]`}
+        onClick={() => setIsNavActive(false)}
+      />
       <div className="flex items-center justify-between">
         <div className="flex gap-6 items-center">
           <Link
