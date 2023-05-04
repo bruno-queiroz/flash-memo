@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 const SignIn = () => {
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="flex flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold my-8 dark:text-aqua-blue text-dark-blue text-center">
-        Sign Up
+        Sign In
       </h1>
 
       <Form>
