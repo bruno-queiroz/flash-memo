@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi";
+import DeleteDeckModal from "./DeleteDeckModal";
 
 const DeckStatus = () => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isOptionsActive, setIsOptionsActive] = useState(false);
 
   useEffect(() => {
@@ -22,6 +24,13 @@ const DeckStatus = () => {
 
   return (
     <article className="flex items-center  rounded-lg dark:bg-neutral-900 shadow-sm bg-gray-200">
+      <DeleteDeckModal
+        {...{
+          isModalOpen: isDeleteModalOpen,
+          setIsModalOpen: setIsDeleteModalOpen,
+          deckName: "Puts",
+        }}
+      />
       <Link
         to=""
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
@@ -52,9 +61,10 @@ const DeckStatus = () => {
             className={`absolute z-10 left-[50%] flex-col top-[100%] translate-x-[-50%] p-2 w-[120px] dark:bg-neutral-950 dark:text-white bg-dark-blue text-white rounded text-sm ${
               isOptionsActive ? "flex" : "hidden"
             }`}
-            onClick={() => console.log("delete deck")}
           >
-            <button className="p-2">Delete Deck</button>
+            <button className="p-2" onClick={() => setIsDeleteModalOpen(true)}>
+              Delete Deck
+            </button>
             <button className="p-2">Rename Deck</button>
           </div>
         </div>
