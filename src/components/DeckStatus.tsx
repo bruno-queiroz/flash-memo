@@ -58,14 +58,19 @@ const DeckStatus = () => {
             />
           </button>
           <div
-            className={`absolute z-10 left-[50%] flex-col top-[100%] translate-x-[-50%] p-2 w-[120px] dark:bg-neutral-950 dark:text-white bg-dark-blue text-white rounded text-sm ${
+            className={`absolute z-10 left-[50%] flex-col top-[100%] translate-x-[-50%] py-2 w-[120px] dark:bg-neutral-950 dark:text-white bg-dark-blue text-white rounded text-sm ${
               isOptionsActive ? "flex" : "hidden"
             }`}
           >
-            <button className="p-2" onClick={() => setIsDeleteModalOpen(true)}>
+            <button
+              className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
               Delete Deck
             </button>
-            <button className="p-2">Rename Deck</button>
+            <button className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors">
+              Rename Deck
+            </button>
           </div>
         </div>
       </div>
