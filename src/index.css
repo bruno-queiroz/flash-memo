@@ -15,6 +15,10 @@
   animation: light-theme 300ms forwards;
 }
 
+.modal-animation {
+  animation: modal-animation 300ms forwards;
+}
+
 @media (min-width: 640px) {
   .reset-styles {
     all: unset;
@@ -42,5 +46,17 @@
   100% {
     transform: translateX(100%);
     background-color: var(--primary-yellow);
+  }
+}
+
+@keyframes modal-animation {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(120px);
+    opacity: 1;
   }
 }
