@@ -36,8 +36,8 @@ const SignIn = () => {
       </h1>
 
       <Form onSubmit={signIn}>
-        <Input labelText="Your Name" ref={nameInputRef} />
-        <Input labelText="Your Password" ref={passwordInputRef} />
+        <Input labelText="Your Name" required ref={nameInputRef} />
+        <Input labelText="Your Password" required ref={passwordInputRef} />
         <button className="bg-primary-yellow py-2 px-4 min-w-[80px] rounded w-[max-content] mx-auto mt-4 text-white">
           {isLoading ? <LoadSpinner /> : "Sign In"}
         </button>
