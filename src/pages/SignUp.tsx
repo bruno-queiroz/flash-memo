@@ -4,6 +4,8 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import { useMutation } from "react-query";
 import { postUser } from "../fetch/postUser";
+import Notification from "../components/Notification";
+import LoadSpinner from "../components/LoadSpinner";
 
 export interface UserForm {
   name: string;
@@ -13,9 +15,11 @@ export interface UserForm {
 const SignUp = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const { mutate: newUserMutation } = useMutation((user: UserForm) =>
-    postUser(user)
-  );
+  const {
+    mutate: newUserMutation,
+    isLoading,
+    data,
+  } = useMutation((user: UserForm) => postUser(user));
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,8 +47,9 @@ const SignUp = () => {
         />
 
         <button className="bg-primary-yellow py-2 px-4 rounded w-[max-content] mx-auto mt-4 text-white">
-          Sign Up
+          {isLoading ? <LoadSpinner /> : "Sign Up"}
         </button>
+        <Notification {...data} />
         <Link to="/sign-in" className="text-center dark:text-gray-300 ">
           Already have an account? click here
         </Link>
