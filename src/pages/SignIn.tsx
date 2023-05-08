@@ -11,6 +11,7 @@ import LoadSpinner from "../components/LoadSpinner";
 const SignIn = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const {
     mutate: userSignInMutate,
     data,
@@ -28,6 +29,12 @@ const SignIn = () => {
       userSignInMutate(user);
     }
   };
+
+  useEffect(() => {
+    if (data?.isOk) {
+      navigate("/decks");
+    }
+  }, [data]);
 
   return (
     <section className="flex flex-col items-center justify-center p-4">
