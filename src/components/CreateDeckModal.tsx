@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import ModalContainer, { ModalContainerProps } from "./ModalContainer";
 import Input from "./Input";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { DeckForm, postDeck } from "../fetch/postDeck";
 
 type CreateDeckModalProps = Omit<ModalContainerProps, "children">;
@@ -11,8 +11,14 @@ const CreateDeckModal = ({
   setIsModalOpen,
 }: CreateDeckModalProps) => {
   const deckNameRef = useRef<HTMLInputElement>(null);
-  const { mutate: createDeckMutate } = useMutation((newDeck: DeckForm) =>
-    postDeck(newDeck)
+  const queryClient = useQueryClient();
+  const { mutate: createDeckMutate } = useMutation(
+    (newDeck: DeckForm) => postDeck(newDeck),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("decksData");
+      },
+    }
   );
 
   const createDeck = (event: React.FormEvent<HTMLFormElement>) => {
