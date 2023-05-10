@@ -1,6 +1,6 @@
 import { UserForm } from "../pages/SignUp";
 
-interface SignInResponse {
+export interface ServerResponse {
   isOk: boolean;
   msg: string;
   data: UserForm;
@@ -13,8 +13,9 @@ export const postSignIn = async (user: UserForm) => {
       "content-type": "application/json",
     },
     body: JSON.stringify(user),
+    credentials: "include",
   });
 
-  const data: SignInResponse = await response.json();
+  const data: ServerResponse = await response.json();
   return data;
 };
