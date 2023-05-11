@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeckStatus from "../components/DeckStatus";
 import CreateDeckModal from "../components/CreateDeckModal";
+import { useQuery } from "react-query";
+import { getDecks } from "../fetch/getDecks";
 
 const Decks = () => {
+  const { data: decks } = useQuery("decksData", getDecks);
   const [isCreateDeckModalOpen, setIsCreateDeckModalOpen] = useState(false);
 
   return (
@@ -18,13 +21,9 @@ const Decks = () => {
       </h1>
 
       <div className="flex flex-col gap-2 max-w-[900px] w-full">
-        <DeckStatus />
-        <DeckStatus />
-        <DeckStatus />
-        <DeckStatus />
-        <DeckStatus />
-        <DeckStatus />
-        <DeckStatus />
+        {decks?.data?.deck.map((deck) => (
+          <DeckStatus {...deck} key={deck.id} />
+        ))}
       </div>
 
       <button
