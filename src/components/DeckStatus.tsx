@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi";
 import DeleteDeckModal from "./DeleteDeckModal";
+import { Deck } from "../fetch/getDecks";
 
-const DeckStatus = () => {
+const DeckStatus = ({ name }: Deck) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isOptionsActive, setIsOptionsActive] = useState(false);
 
@@ -28,14 +29,14 @@ const DeckStatus = () => {
         {...{
           isModalOpen: isDeleteModalOpen,
           setIsModalOpen: setIsDeleteModalOpen,
-          deckName: "Puts",
+          deckName: name,
         }}
       />
       <Link
         to=""
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
       >
-        English
+        {name}
       </Link>
 
       <div className="flex gap-6 p-4">
