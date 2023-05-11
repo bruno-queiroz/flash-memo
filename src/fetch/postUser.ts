@@ -11,6 +11,6 @@ export const postUser = async (user: UserForm) => {
     credentials: "include",
   });
 
-  const data: ServerResponse = await response.json();
+  const data: ServerResponse<UserForm> = await response.json();
   return data;
 };
