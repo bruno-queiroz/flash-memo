@@ -42,7 +42,9 @@ const Add = () => {
             ref={cardSelectRef}
           >
             {decks?.data?.deck?.map((deck) => (
-              <option value={deck?.id}>{deck?.name}</option>
+              <option value={deck?.id} key={deck?.id}>
+                {deck?.name}
+              </option>
             ))}
           </select>
         </label>
