@@ -1,6 +1,11 @@
 import { ServerResponse } from "./postSignIn";
 
-export interface Deck {
+export interface DeckStatusType {
+  cards: {
+    resetedCards: number;
+    newCards: number;
+    reviewCards: number;
+  };
   createdAt: Date;
   id: string;
   name: string;
@@ -8,7 +13,7 @@ export interface Deck {
 }
 
 export interface DeckResponse {
-  deck: Deck[];
+  deck: DeckStatusType[];
 }
 
 export const getDecks = async () => {
