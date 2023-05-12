@@ -12,15 +12,11 @@ export interface DeckStatusType {
   userId: string;
 }
 
-export interface DeckResponse {
-  deck: DeckStatusType[];
-}
-
 export const getDecks = async () => {
   const response = await fetch(`http://localhost:3000/get-decks`, {
     credentials: "include",
   });
 
-  const data: ServerResponse<DeckResponse> = await response.json();
+  const data: ServerResponse<DeckStatusType[]> = await response.json();
   return data;
 };

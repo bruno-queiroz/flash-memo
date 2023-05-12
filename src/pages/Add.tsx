@@ -41,7 +41,7 @@ const Add = () => {
             className="dark:bg-neutral-800 bg-white p-1"
             ref={cardSelectRef}
           >
-            {decks?.data?.deck?.map((deck) => (
+            {decks?.data?.map((deck) => (
               <option value={deck?.id} key={deck?.id}>
                 {deck?.name}
               </option>

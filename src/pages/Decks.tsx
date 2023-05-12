@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import DeckStatus from "../components/DeckStatus";
+import { useState } from "react";
+import { DeckStatus } from "../components/DeckStatus";
 import CreateDeckModal from "../components/CreateDeckModal";
 import { useQuery } from "react-query";
 import { getDecks } from "../fetch/getDecks";
@@ -7,7 +7,6 @@ import { getDecks } from "../fetch/getDecks";
 const Decks = () => {
   const { data: decks } = useQuery("decksData", getDecks);
   const [isCreateDeckModalOpen, setIsCreateDeckModalOpen] = useState(false);
-
   return (
     <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300">
       <CreateDeckModal
@@ -21,7 +20,7 @@ const Decks = () => {
       </h1>
 
       <div className="flex flex-col gap-2 max-w-[900px] w-full">
-        {decks?.data?.deck.map((deck) => (
+        {decks?.data?.map((deck) => (
           <DeckStatus {...deck} key={deck.id} />
         ))}
       </div>
