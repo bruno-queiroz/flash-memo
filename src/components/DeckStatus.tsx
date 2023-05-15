@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi";
 import DeleteDeckModal from "./DeleteDeckModal";
-import { Deck } from "../fetch/getDecks";
+import { DeckStatusType } from "../fetch/getDecks";
 
-const DeckStatus = ({ name }: Deck) => {
+export const DeckStatus = ({ name, cards }: DeckStatusType) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isOptionsActive, setIsOptionsActive] = useState(false);
 
@@ -33,7 +33,7 @@ const DeckStatus = ({ name }: Deck) => {
         }}
       />
       <Link
-        to=""
+        to={`/study/${name}`}
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
       >
         {name}
@@ -41,9 +41,9 @@ const DeckStatus = ({ name }: Deck) => {
 
       <div className="flex gap-6 p-4">
         <div className="flex gap-1">
-          <span>0</span>
-          <span>0</span>
-          <span>0</span>
+          <span className="text-blue-500">{cards.newCards}</span>
+          <span className="text-red-500">{cards.resetedCards}</span>
+          <span className="text-green-500">{cards.reviewCards}</span>
         </div>
 
         <div className="flex items-center relative">
@@ -78,5 +78,3 @@ const DeckStatus = ({ name }: Deck) => {
     </article>
   );
 };
-
-export default DeckStatus;
