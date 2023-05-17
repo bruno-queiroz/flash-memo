@@ -49,7 +49,6 @@ const Study = () => {
         if (isTheFinalResetedCard) {
           return;
         }
-
         setCardsCounter({
           ...cardsCounter,
           resetedCards: cardsCounter.resetedCards - 1,
@@ -70,7 +69,14 @@ const Study = () => {
 
   const onReset = () => {
     if (cards?.data?.cards) {
-      setIndex(index + 1);
+      const isTheFinalCard = index + 1 === cards?.data?.cards.length;
+
+      if (isTheFinalCard) {
+        setIsResetedCardsBeingShown(true);
+      }
+      if (!isTheFinalCard) {
+        setIndex(index + 1);
+      }
       setIsShowingAnswer(false);
       const cardReseted = cards?.data?.cards[index];
       const cardGroupBeforeReset = checkCardGroup(cardReseted);
