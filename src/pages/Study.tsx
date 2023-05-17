@@ -68,6 +68,22 @@ const Study = () => {
     }
   };
 
+  const onReset = () => {
+    if (cards?.data?.cards) {
+      setIndex(index + 1);
+      setIsShowingAnswer(false);
+      const cardReseted = cards?.data?.cards[index];
+      const cardGroupBeforeReset = checkCardGroup(cardReseted);
+
+      setResetedCards([...resetedCards, cardReseted]);
+      setCardsCounter({
+        ...cardsCounter,
+        [cardGroupBeforeReset]: cardsCounter[cardGroupBeforeReset] - 1,
+        resetedCards: cardsCounter.resetedCards + 1,
+      });
+    }
+  };
+
   const onReturnOneCard = () => {
     if (index - 1 < 0) return;
     if (cards?.data?.cards) {
@@ -137,7 +153,9 @@ const Study = () => {
       <div className="flex gap-4 text-white mt-auto font-semibold">
         {isShowingAnswer ? (
           <>
-            <button className="py-2 px-4 rounded bg-red-500">reset</button>
+            <button className="py-2 px-4 rounded bg-red-500" onClick={onReset}>
+              reset
+            </button>
             <button className="py-2 px-4 rounded text-black bg-gray-300">
               hard
             </button>
