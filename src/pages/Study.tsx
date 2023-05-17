@@ -93,6 +93,20 @@ const Study = () => {
   const onReturnOneCard = () => {
     if (index - 1 < 0) return;
     if (cards?.data?.cards) {
+      setIsShowingAnswer(false);
+      if (isResetedCardsBeingShown) {
+        const isTheFinalResetedCard =
+          resetedCardsIndex + 1 === resetedCards.length;
+        if (isTheFinalResetedCard) {
+          setIsResetedCardsBeingShown(false);
+        }
+        setCardsCounter({
+          ...cardsCounter,
+          resetedCards: cardsCounter.resetedCards + 1,
+        });
+        setResetedCardsIndex(resetedCardsIndex - 1);
+        return;
+      }
       const cardGroup = checkCardGroup(cards?.data?.cards[index - 1]);
       setCardsCounter({
         ...cardsCounter,
