@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getStudyDeck } from "../fetch/getStudyDeck";
+import { Card, getStudyDeck } from "../fetch/getStudyDeck";
 import { TiArrowBack as BackIcon } from "react-icons/ti";
 import {
   CardAmountGroups,
@@ -17,6 +17,10 @@ const Study = () => {
     newCards: 0,
     reviewCards: 0,
   });
+  const [resetedCards, setResetedCards] = useState<Card[]>([]);
+  const [isResetedCardsBeingShown, setIsResetedCardsBeingShown] =
+    useState(false);
+  const [resetedCardsIndex, setResetedCardsIndex] = useState(0);
   const [isReturnOneCardDisable, setIsReturnOneCardDisable] = useState(false);
   const [isShowingAnswer, setIsShowingAnswer] = useState(false);
   const [index, setIndex] = useState(0);
@@ -24,12 +28,42 @@ const Study = () => {
   const onEasy = () => {
     if (cards?.data?.cards) {
       setIsShowingAnswer(false);
-      if (index + 1 === cards?.data?.cards.length) return;
       const cardGroup = checkCardGroup(cards?.data?.cards[index]);
+
+      const isTheFinalCard = index + 1 === cards?.data?.cards.length;
+      if (isTheFinalCard) {
+        if (resetedCards.length === 0) {
+          return;
+        }
+        if (cardsCounter[cardGroup] === 1) {
+          setCardsCounter({
+            ...cardsCounter,
+            [cardGroup]: cardsCounter[cardGroup] - 1,
+          });
+          setIsResetedCardsBeingShown(true);
+          return;
+        }
+
+        const isTheFinalResetedCard =
+          resetedCardsIndex + 1 === resetedCards.length;
+        if (isTheFinalResetedCard) {
+          return;
+        }
+
+        setCardsCounter({
+          ...cardsCounter,
+          resetedCards: cardsCounter.resetedCards - 1,
+        });
+
+        setResetedCardsIndex(resetedCardsIndex + 1);
+
+        return;
+      }
       setCardsCounter({
         ...cardsCounter,
         [cardGroup]: cardsCounter[cardGroup] - 1,
       });
+
       setIndex(index + 1);
     }
   };
@@ -48,7 +82,6 @@ const Study = () => {
 
   useEffect(() => {
     if (index - 1 < 0) {
-      console.log(index - 1);
       setIsReturnOneCardDisable(true);
     } else {
       setIsReturnOneCardDisable(false);
@@ -84,7 +117,9 @@ const Study = () => {
       <div className="mx-auto w-full md:max-w-[80%]">
         <div className="flex flex-col gap-4  shadow-md w-full p-4 rounded-tl-md rounded-tr-md text-center bg-gray-300 dark:bg-neutral-900 dark:text-gray-300 ">
           <h2 className="py-2 font-semibold text-lg">
-            {cards?.data?.cards?.[index]?.front}
+            {isResetedCardsBeingShown
+              ? resetedCards[resetedCardsIndex]?.front
+              : cards?.data?.cards?.[index]?.front}
           </h2>
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
         </div>
@@ -93,7 +128,9 @@ const Study = () => {
             isShowingAnswer ? "scale-y-100 h-full" : "scale-y-0 h-[1px]"
           }`}
         >
-          {cards?.data?.cards?.[index]?.back}
+          {isResetedCardsBeingShown
+            ? resetedCards?.[resetedCardsIndex]?.back
+            : cards?.data?.cards?.[index]?.back}
         </div>
       </div>
 
