@@ -94,24 +94,79 @@ const Study = () => {
     if (index - 1 < 0) return;
     if (cards?.data?.cards) {
       setIsShowingAnswer(false);
+
       if (isResetedCardsBeingShown) {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
-        if (isTheFinalResetedCard) {
+
+        const isTheFirstResetedCard = resetedCardsIndex === 0;
+
+        if (isTheFirstResetedCard) {
+          const lastCardItem = cards?.data?.cards.length;
+          const lastCardGroup = checkCardGroup(
+            cards?.data?.cards[lastCardItem - 1]
+          );
+
+          setCardsCounter({
+            ...cardsCounter,
+            [lastCardGroup]: cardsCounter[lastCardGroup] + 1,
+          });
           setIsResetedCardsBeingShown(false);
+
+          const wasTheLastCardReseted = resetedCards.some(
+            (card) => cards?.data?.cards[index].id === card.id
+          );
+
+          if (wasTheLastCardReseted) {
+            setCardsCounter({
+              ...cardsCounter,
+              [lastCardGroup]: cardsCounter[lastCardGroup] + 1,
+              resetedCards: cardsCounter.resetedCards - 1,
+            });
+            setResetedCards(
+              resetedCards.filter(
+                (card) => cards?.data?.cards[index].id !== card.id
+              )
+            );
+          }
+
+          return;
+        }
+
+        if (isTheFinalResetedCard) {
         }
         setCardsCounter({
           ...cardsCounter,
           resetedCards: cardsCounter.resetedCards + 1,
         });
         setResetedCardsIndex(resetedCardsIndex - 1);
+
         return;
       }
       const cardGroup = checkCardGroup(cards?.data?.cards[index - 1]);
+
       setCardsCounter({
         ...cardsCounter,
         [cardGroup]: cardsCounter[cardGroup] + 1,
       });
+
+      const wasCardReseted = resetedCards.some(
+        (card) => cards?.data?.cards[index - 1 ? index - 1 : 0].id === card.id
+      );
+
+      if (wasCardReseted) {
+        setCardsCounter({
+          ...cardsCounter,
+          [cardGroup]: cardsCounter[cardGroup] + 1,
+          resetedCards: cardsCounter.resetedCards - 1,
+        });
+        setResetedCards(
+          resetedCards.filter(
+            (card) =>
+              cards?.data?.cards[index - 1 ? index - 1 : 0].id !== card.id
+          )
+        );
+      }
       setIndex(index - 1);
     }
   };
