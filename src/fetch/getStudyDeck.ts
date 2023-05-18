@@ -19,7 +19,9 @@ export interface DeckStudy {
 }
 
 export const getStudyDeck = async (deckName: string | undefined) => {
-  const response = await fetch(`http://localhost:3000/study-deck/${deckName}`);
+  const response = await fetch(`http://localhost:3000/study-deck/${deckName}`, {
+    credentials: "include",
+  });
   const data: ServerResponse<DeckStudy> = await response.json();
   return data;
 };
