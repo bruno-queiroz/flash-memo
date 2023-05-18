@@ -228,7 +228,11 @@ const Study = () => {
       <div className="flex gap-4 text-white mt-auto font-semibold">
         {isShowingAnswer ? (
           <>
-            <button className="py-2 px-4 rounded bg-red-500" onClick={onReset}>
+            <button
+              className="py-2 px-4 rounded bg-red-500"
+              onClick={onReset}
+              disabled={isResetedCardsBeingShown}
+            >
               reset
             </button>
             <button className="py-2 px-4 rounded text-black bg-gray-300">
