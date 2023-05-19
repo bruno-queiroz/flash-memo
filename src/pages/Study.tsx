@@ -72,6 +72,10 @@ const Study = () => {
     }
   };
 
+  const onEasy = (recallFeedback: keyof RecallFeedback) => {
+    reviewCard(recallFeedback);
+  };
+
   const onReset = () => {
     if (cards?.data?.cards) {
       const isTheFinalCard = index + 1 === cards?.data?.cards.length;
