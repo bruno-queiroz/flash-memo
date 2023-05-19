@@ -9,6 +9,7 @@ import {
 } from "../utils/countCardAmountGroups";
 import { checkCardGroup } from "../utils/checkCardGroup";
 import { patchCardDates } from "../fetch/patchCardDates";
+import { estimateNextReviewTime } from "../utils/estimateNextReviewTime";
 import { RecallFeedback } from "../utils/multiplyReviewTime";
 
 const Study = () => {
@@ -238,21 +239,56 @@ const Study = () => {
         {isShowingAnswer ? (
           <>
             <button
-              className="py-2 px-4 rounded bg-red-500"
+              className="py-2 px-4 rounded bg-red-500 h-[max-content] mt-auto"
               onClick={onReset}
-              disabled={isResetedCardsBeingShown}
+              disabled={
+                isResetedCardsBeingShown ||
+                cards?.data?.cards?.[index]?.wasCardReseted
+              }
             >
               reset
             </button>
-            <button className="py-2 px-4 rounded text-black bg-gray-300">
-              hard
-            </button>
-            <button className="py-2 px-4 rounded text-black bg-green-500">
-              good
-            </button>
-            <button className="py-2 px-4 rounded bg-blue-500" onClick={onEasy}>
-              easy
-            </button>
+            <div className="flex flex-col">
+              <span className="mx-auto mb-1 text-black dark:text-gray-300">
+                {estimateNextReviewTime(
+                  cards?.data?.cards?.[index]?.reviewAt,
+                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  "hard"
+                )}
+              </span>
+              <button className="py-2 px-4 rounded text-black bg-gray-300">
+                hard
+              </button>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-green-500 mx-auto mb-1">
+                {estimateNextReviewTime(
+                  cards?.data?.cards?.[index]?.reviewAt,
+                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  "good"
+                )}
+              </span>
+
+              <button className="py-2 px-4 rounded text-black bg-green-500">
+                good
+              </button>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-blue-500 mx-auto mb-1">
+                {estimateNextReviewTime(
+                  cards?.data?.cards?.[index]?.reviewAt,
+                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  "easy"
+                )}
+              </span>
+
+              <button
+                className="py-2 px-4 rounded bg-blue-500"
+                onClick={() => onEasy("easy")}
+              >
+                easy
+              </button>
+            </div>
           </>
         ) : (
           <button
