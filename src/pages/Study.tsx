@@ -8,6 +8,8 @@ import {
   countCardAmountGroups,
 } from "../utils/countCardAmountGroups";
 import { checkCardGroup } from "../utils/checkCardGroup";
+import { patchCardDates } from "../fetch/patchCardDates";
+import { RecallFeedback } from "../utils/multiplyReviewTime";
 
 const Study = () => {
   const { deckName } = useParams();
@@ -25,7 +27,7 @@ const Study = () => {
   const [isShowingAnswer, setIsShowingAnswer] = useState(false);
   const [index, setIndex] = useState(0);
 
-  const onEasy = () => {
+  const reviewCard = async (recallFeedback: keyof RecallFeedback) => {
     if (cards?.data?.cards) {
       setIsShowingAnswer(false);
       const cardGroup = checkCardGroup(cards?.data?.cards[index]);
@@ -58,6 +60,9 @@ const Study = () => {
 
         return;
       }
+
+      await patchCardDates(cards?.data?.cards[index], recallFeedback);
+
       setCardsCounter({
         ...cardsCounter,
         [cardGroup]: cardsCounter[cardGroup] - 1,
