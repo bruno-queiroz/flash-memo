@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Card, getStudyDeck } from "../fetch/getStudyDeck";
 import { TiArrowBack as BackIcon } from "react-icons/ti";
 import {
@@ -27,6 +27,7 @@ const Study = () => {
   const [isReturnOneCardDisable, setIsReturnOneCardDisable] = useState(false);
   const [isShowingAnswer, setIsShowingAnswer] = useState(false);
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   const reviewCard = async (recallFeedback: keyof RecallFeedback) => {
     if (cards?.data) {
@@ -37,6 +38,7 @@ const Study = () => {
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
           await patchCardDates(cards?.data?.[index], recallFeedback);
+          navigate("/decks");
           return;
         }
         if (cardsCounter[cardGroup] === 1) {
@@ -52,6 +54,7 @@ const Study = () => {
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
           await patchCardDates(cards?.data?.[index], recallFeedback);
+          navigate("/decks");
           return;
         }
         setCardsCounter({
