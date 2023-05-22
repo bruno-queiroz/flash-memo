@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Card, getStudyDeck } from "../fetch/getStudyDeck";
@@ -29,11 +29,11 @@ const Study = () => {
   const [index, setIndex] = useState(0);
 
   const reviewCard = async (recallFeedback: keyof RecallFeedback) => {
-    if (cards?.data?.cards) {
+    if (cards?.data) {
       setIsShowingAnswer(false);
-      const cardGroup = checkCardGroup(cards?.data?.cards[index]);
+      const cardGroup = checkCardGroup(cards?.data?.[index]);
 
-      const isTheFinalCard = index + 1 === cards?.data?.cards.length;
+      const isTheFinalCard = index + 1 === cards?.data?.length;
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
           return;
@@ -62,7 +62,7 @@ const Study = () => {
         return;
       }
 
-      await patchCardDates(cards?.data?.cards[index], recallFeedback);
+      await patchCardDates(cards?.data?.[index], recallFeedback);
 
       setCardsCounter({
         ...cardsCounter,
@@ -78,8 +78,8 @@ const Study = () => {
   };
 
   const onReset = () => {
-    if (cards?.data?.cards) {
-      const isTheFinalCard = index + 1 === cards?.data?.cards.length;
+    if (cards?.data) {
+      const isTheFinalCard = index + 1 === cards?.data?.length;
 
       if (isTheFinalCard) {
         setIsResetedCardsBeingShown(true);
@@ -88,7 +88,7 @@ const Study = () => {
         setIndex(index + 1);
       }
       setIsShowingAnswer(false);
-      const cardReseted = cards?.data?.cards[index];
+      const cardReseted = cards?.data?.[index];
       const cardGroupBeforeReset = checkCardGroup(cardReseted);
 
       setResetedCards([...resetedCards, cardReseted]);
@@ -102,7 +102,7 @@ const Study = () => {
 
   const onReturnOneCard = () => {
     if (index - 1 < 0) return;
-    if (cards?.data?.cards) {
+    if (cards?.data) {
       setIsShowingAnswer(false);
 
       if (isResetedCardsBeingShown) {
@@ -112,10 +112,8 @@ const Study = () => {
         const isTheFirstResetedCard = resetedCardsIndex === 0;
 
         if (isTheFirstResetedCard) {
-          const lastCardItem = cards?.data?.cards.length;
-          const lastCardGroup = checkCardGroup(
-            cards?.data?.cards[lastCardItem - 1]
-          );
+          const lastCardItem = cards?.data?.length;
+          const lastCardGroup = checkCardGroup(cards?.data?.[lastCardItem - 1]);
 
           setCardsCounter({
             ...cardsCounter,
@@ -124,7 +122,7 @@ const Study = () => {
           setIsResetedCardsBeingShown(false);
 
           const wasTheLastCardReseted = resetedCards.some(
-            (card) => cards?.data?.cards[index].id === card.id
+            (card) => cards?.data?.[index]?.id === card.id
           );
 
           if (wasTheLastCardReseted) {
@@ -135,7 +133,7 @@ const Study = () => {
             });
             setResetedCards(
               resetedCards.filter(
-                (card) => cards?.data?.cards[index].id !== card.id
+                (card) => cards?.data?.[index]?.id !== card.id
               )
             );
           }
@@ -153,7 +151,7 @@ const Study = () => {
 
         return;
       }
-      const cardGroup = checkCardGroup(cards?.data?.cards[index - 1]);
+      const cardGroup = checkCardGroup(cards?.data?.[index - 1]);
 
       setCardsCounter({
         ...cardsCounter,
@@ -161,7 +159,7 @@ const Study = () => {
       });
 
       const wasCardReseted = resetedCards.some(
-        (card) => cards?.data?.cards[index - 1 ? index - 1 : 0].id === card.id
+        (card) => cards?.data?.[index - 1 ? index - 1 : 0]?.id === card.id
       );
 
       if (wasCardReseted) {
@@ -172,8 +170,7 @@ const Study = () => {
         });
         setResetedCards(
           resetedCards.filter(
-            (card) =>
-              cards?.data?.cards[index - 1 ? index - 1 : 0].id !== card.id
+            (card) => cards?.data?.[index - 1 ? index - 1 : 0]?.id !== card.id
           )
         );
       }
@@ -190,7 +187,7 @@ const Study = () => {
   }, [index]);
 
   useEffect(() => {
-    setCardsCounter(countCardAmountGroups(cards?.data?.cards));
+    setCardsCounter(countCardAmountGroups(cards?.data));
   }, [cards]);
 
   return (
@@ -220,7 +217,7 @@ const Study = () => {
           <h2 className="py-2 font-semibold text-lg">
             {isResetedCardsBeingShown
               ? resetedCards[resetedCardsIndex]?.front
-              : cards?.data?.cards?.[index]?.front}
+              : cards?.data?.[index]?.front}
           </h2>
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
         </div>
@@ -231,7 +228,7 @@ const Study = () => {
         >
           {isResetedCardsBeingShown
             ? resetedCards?.[resetedCardsIndex]?.back
-            : cards?.data?.cards?.[index]?.back}
+            : cards?.data?.[index]?.back}
         </div>
       </div>
 
@@ -242,8 +239,7 @@ const Study = () => {
               className="py-2 px-4 rounded bg-red-500 h-[max-content] mt-auto"
               onClick={onReset}
               disabled={
-                isResetedCardsBeingShown ||
-                cards?.data?.cards?.[index]?.wasCardReseted
+                isResetedCardsBeingShown || cards?.data?.[index]?.wasCardReseted
               }
             >
               reset
@@ -251,8 +247,8 @@ const Study = () => {
             <div className="flex flex-col">
               <span className="mx-auto mb-1 text-black dark:text-gray-300">
                 {estimateNextReviewTime(
-                  cards?.data?.cards?.[index]?.reviewAt,
-                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  cards?.data?.[index]?.reviewAt,
+                  cards?.data?.[index]?.reviewAwaitTime,
                   "hard"
                 )}
               </span>
@@ -263,8 +259,8 @@ const Study = () => {
             <div className="flex flex-col">
               <span className="text-green-500 mx-auto mb-1">
                 {estimateNextReviewTime(
-                  cards?.data?.cards?.[index]?.reviewAt,
-                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  cards?.data?.[index]?.reviewAt,
+                  cards?.data?.[index]?.reviewAwaitTime,
                   "good"
                 )}
               </span>
@@ -276,8 +272,8 @@ const Study = () => {
             <div className="flex flex-col">
               <span className="text-blue-500 mx-auto mb-1">
                 {estimateNextReviewTime(
-                  cards?.data?.cards?.[index]?.reviewAt,
-                  cards?.data?.cards?.[index]?.reviewAwaitTime,
+                  cards?.data?.[index]?.reviewAt,
+                  cards?.data?.[index]?.reviewAwaitTime,
                   "easy"
                 )}
               </span>
