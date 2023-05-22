@@ -86,6 +86,10 @@ const Study = () => {
     reviewCard(recallFeedback);
   };
 
+  const onGood = (recallFeedback: keyof RecallFeedback) => {
+    reviewCard(recallFeedback);
+  };
+
   const onReset = () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
@@ -277,7 +281,10 @@ const Study = () => {
                 )}
               </span>
 
-              <button className="py-2 px-4 rounded text-black bg-green-500">
+              <button
+                className="py-2 px-4 rounded text-black bg-green-500"
+                onClick={() => onGood("good")}
+              >
                 good
               </button>
             </div>
