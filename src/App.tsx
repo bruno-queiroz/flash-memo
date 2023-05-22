@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import Decks from "./pages/Decks";
 import Add from "./pages/Add";
 import Study from "./pages/Study";
+import Search from "./pages/Search";
 
 const App = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/decks" element={<Decks />} />
         <Route path="/add" element={<Add />} />
         <Route path="/study/:deckName" element={<Study />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </>
   );
