@@ -36,6 +36,7 @@ const Study = () => {
       const isTheFinalCard = index + 1 === cards?.data?.length;
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
+          await patchCardDates(cards?.data?.[index], recallFeedback);
           return;
         }
         if (cardsCounter[cardGroup] === 1) {
@@ -50,6 +51,7 @@ const Study = () => {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
+          await patchCardDates(cards?.data?.[index], recallFeedback);
           return;
         }
         setCardsCounter({
