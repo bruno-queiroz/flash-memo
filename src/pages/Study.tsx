@@ -77,6 +77,10 @@ const Study = () => {
     reviewCard(recallFeedback);
   };
 
+  const onHard = (recallFeedback: keyof RecallFeedback) => {
+    reviewCard(recallFeedback);
+  };
+
   const onReset = () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
@@ -252,7 +256,10 @@ const Study = () => {
                   "hard"
                 )}
               </span>
-              <button className="py-2 px-4 rounded text-black bg-gray-300">
+              <button
+                className="py-2 px-4 rounded text-black bg-gray-300"
+                onClick={() => onHard("hard")}
+              >
                 hard
               </button>
             </div>
