@@ -53,7 +53,7 @@ const Study = () => {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
-          await patchCardDates(cards?.data?.[index], recallFeedback);
+          await patchCardDates(resetedCards[resetedCardsIndex], recallFeedback);
           navigate("/decks");
           return;
         }
