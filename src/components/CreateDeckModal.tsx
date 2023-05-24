@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import ModalContainer, { ModalContainerProps } from "./ModalContainer";
 import Input from "./Input";
 import { useMutation, useQueryClient } from "react-query";
 import { DeckForm, postDeck } from "../fetch/postDeck";
 
 type CreateDeckModalProps = Omit<ModalContainerProps, "children">;
+
+const DIALOG_ANIMATION_TIME = 150;
 
 const CreateDeckModal = ({
   isModalOpen,
@@ -27,10 +29,17 @@ const CreateDeckModal = ({
       const newDeck = {
         deckName: deckNameRef.current.value,
       };
-      console.log(newDeck);
       createDeckMutate(newDeck);
     }
   };
+
+  useEffect(() => {
+    if (isModalOpen && deckNameRef.current) {
+      setTimeout(() => {
+        deckNameRef.current?.focus();
+      }, DIALOG_ANIMATION_TIME);
+    }
+  }, [isModalOpen]);
 
   return (
     <ModalContainer {...{ isModalOpen, setIsModalOpen }}>
