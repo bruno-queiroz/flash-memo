@@ -15,8 +15,12 @@
   animation: light-theme 300ms forwards;
 }
 
-.modal-animation {
-  animation: modal-animation 300ms forwards;
+.show-modal-animation {
+  animation: show-modal-animation 300ms forwards;
+}
+
+.close-modal-animation {
+  animation: close-modal-animation 300ms forwards;
 }
 
 @media (min-width: 640px) {
@@ -49,7 +53,7 @@
   }
 }
 
-@keyframes modal-animation {
+@keyframes show-modal-animation {
   0% {
     transform: translateY(0);
     opacity: 0;
@@ -58,5 +62,17 @@
   100% {
     transform: translateY(120px);
     opacity: 1;
+  }
+}
+
+@keyframes close-modal-animation {
+  0% {
+    transform: translateY(120px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
   }
 }
