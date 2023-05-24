@@ -38,6 +38,7 @@ const Add = () => {
           <span>Deck</span>
           <select
             required
+            autoFocus
             className="dark:bg-neutral-800 bg-white p-1"
             ref={cardSelectRef}
           >
