@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 export interface ModalContainerProps {
   isModalOpen: boolean;
@@ -14,18 +14,35 @@ const ModalContainer = ({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const dialogAnimationEnd = (
+    event: React.AnimationEvent<HTMLDialogElement>
+  ) => {
+    if (event.animationName === "close-modal-animation") {
+      setIsDialogOpen(false);
+      return;
+    }
+  };
+  useEffect(() => {
+    if (isModalOpen) {
+      setIsDialogOpen(true);
+    }
+  }, [isModalOpen]);
   return (
     <>
       <div
         className={`${
-          isModalOpen ? "block" : "hidden"
-        } fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-[rgba(0,0,0,0.7)] z-10`}
+          isModalOpen ? "translate-y-0" : "translate-y-[-100%]"
+        } fixed bottom-0 left-0 right-0 w-full h-full bg-[rgba(0,0,0,0.7)] z-10`}
         onClick={closeModal}
       />
 
       <dialog
-        open={isModalOpen}
-        className="max-w-[500px] w-full dark:bg-neutral-800 dark:text-white rounded absolute top-0 modal-animation z-10"
+        open={isDialogOpen}
+        onAnimationEnd={dialogAnimationEnd}
+        className={`max-w-[500px] w-full dark:bg-neutral-800 dark:text-white rounded absolute top-0 z-10 ${
+          isModalOpen ? "show-modal-animation" : "close-modal-animation"
+        }`}
       >
         {children}
       </dialog>
