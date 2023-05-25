@@ -1,14 +1,18 @@
 import { useMutation, useQuery } from "react-query";
 import Form from "../components/Form";
 import { getDecks } from "../fetch/getDecks";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { CardForm, createCard } from "../fetch/createCard";
+import LoadSpinner from "../components/LoadSpinner";
 
 const Add = () => {
   const { data: decks } = useQuery("decksData", getDecks);
-  const { mutate: cardMutate } = useMutation((newCard: CardForm) =>
-    createCard(newCard)
-  );
+  const {
+    mutate: cardMutate,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useMutation((newCard: CardForm) => createCard(newCard));
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
@@ -26,6 +30,16 @@ const Add = () => {
       cardMutate(newCard as CardForm);
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (cardFrontInputRef.current && cardBackInputRef.current) {
+        cardFrontInputRef.current.value = "";
+        cardBackInputRef.current.value = "";
+        return;
+      }
+    }
+  }, [isSuccess, isError]);
 
   return (
     <section className="flex gap-4 flex-col p-4 items-center dark:text-gray-300 text-black">
@@ -65,8 +79,8 @@ const Add = () => {
             className="dark:bg-neutral-800 bg-white p-2"
           ></textarea>
         </label>
-        <button className="bg-primary-yellow py-2 px-4 rounded w-[max-content] mx-auto mt-4 text-white">
-          Create
+        <button className="bg-primary-yellow py-2 px-4 rounded w-[80px] mx-auto mt-4 text-white">
+          {isLoading ? <LoadSpinner /> : "Create"}
         </button>
       </Form>
     </section>
