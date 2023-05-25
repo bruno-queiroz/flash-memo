@@ -1,9 +1,16 @@
 import { useMutation, useQuery } from "react-query";
 import Form from "../components/Form";
 import { getDecks } from "../fetch/getDecks";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardForm, createCard } from "../fetch/createCard";
 import LoadSpinner from "../components/LoadSpinner";
+import CRUDNotification from "../components/CRUDNotification";
+
+export interface NotificationContent {
+  isOk: boolean | undefined;
+  msg: string | undefined;
+  isNotificationShowing: boolean;
+}
 
 const Add = () => {
   const { data: decks } = useQuery("decksData", getDecks);
@@ -12,10 +19,14 @@ const Add = () => {
     isLoading,
     isSuccess,
     isError,
+    error,
+    data: postCardResponse,
   } = useMutation((newCard: CardForm) => createCard(newCard));
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
+  const [notificationContent, setNotificationContent] =
+    useState<NotificationContent>({} as NotificationContent);
 
   const submitCard = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,10 +44,29 @@ const Add = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      if (postCardResponse?.msg) {
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: postCardResponse?.isOk,
+          msg: postCardResponse?.msg,
+        });
+      }
+
       if (cardFrontInputRef.current && cardBackInputRef.current) {
         cardFrontInputRef.current.value = "";
         cardBackInputRef.current.value = "";
         return;
+      }
+    }
+    if (isError) {
+      const errorMessage = (error as Error).message;
+
+      if (errorMessage) {
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: false,
+          msg: errorMessage,
+        });
       }
     }
   }, [isSuccess, isError]);
@@ -46,6 +76,10 @@ const Add = () => {
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
         Add
       </h1>
+      <CRUDNotification
+        {...notificationContent}
+        {...{ setNotificationContent }}
+      />
 
       <Form onSubmit={submitCard}>
         <label className="flex flex-col gap-2">
