@@ -1,3 +1,5 @@
+import { ServerResponse } from "./postSignIn";
+
 export interface CardForm {
   deckId: string;
   front: string;
@@ -14,7 +16,6 @@ export const createCard = async (newCard: CardForm) => {
     credentials: "include",
   });
 
-  const data = await response.json();
-  console.log(data);
+  const data: ServerResponse<null> = await response.json();
   return data;
 };
