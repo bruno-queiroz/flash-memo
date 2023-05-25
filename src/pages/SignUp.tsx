@@ -4,7 +4,7 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import { useMutation } from "react-query";
 import { postUser } from "../fetch/postUser";
-import Notification from "../components/Notification";
+import LoginNotification from "../components/LoginNotification";
 import LoadSpinner from "../components/LoadSpinner";
 
 export interface UserForm {
@@ -24,12 +24,12 @@ const SignUp = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newUser = {
-      name: nameInputRef.current?.value!,
-      password: passwordInputRef.current?.value!,
-    };
 
-    if (newUser.name && newUser.password) {
+    if (nameInputRef.current && passwordInputRef.current) {
+      const newUser = {
+        name: nameInputRef.current?.value,
+        password: passwordInputRef.current?.value,
+      };
       newUserMutation(newUser);
     }
   };
@@ -57,7 +57,7 @@ const SignUp = () => {
         <button className="bg-primary-yellow py-2 px-4 rounded w-[max-content] mx-auto mt-4 text-white">
           {isLoading ? <LoadSpinner /> : "Sign Up"}
         </button>
-        <Notification {...data} />
+        <LoginNotification {...data} />
         <Link to="/sign-in" className="text-center dark:text-gray-300 ">
           Already have an account? click here
         </Link>

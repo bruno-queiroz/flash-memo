@@ -1,4 +1,3 @@
-import React from "react";
 import { UserForm } from "../pages/SignUp";
 
 interface SignInData {
@@ -7,7 +6,7 @@ interface SignInData {
   data?: UserForm | undefined;
 }
 
-const Notification = (data: SignInData) => {
+const LoginNotification = (data: SignInData) => {
   return (
     <div
       className={`text-red-500 text-center ${
@@ -19,4 +18,4 @@ const Notification = (data: SignInData) => {
   );
 };
 
-export default Notification;
+export default LoginNotification;

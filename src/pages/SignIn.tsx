@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { postSignIn } from "../fetch/postSignIn";
 import { UserForm } from "./SignUp";
-import Notification from "../components/Notification";
+import LoginNotification from "../components/LoginNotification";
 import LoadSpinner from "../components/LoadSpinner";
 
 const SignIn = () => {
@@ -20,12 +20,12 @@ const SignIn = () => {
 
   const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = {
-      name: nameInputRef.current?.value!,
-      password: passwordInputRef.current?.value!,
-    };
 
-    if (user.name && user.password) {
+    if (nameInputRef.current && passwordInputRef.current) {
+      const user = {
+        name: nameInputRef.current?.value,
+        password: passwordInputRef.current?.value,
+      };
       userSignInMutate(user);
     }
   };
@@ -53,7 +53,7 @@ const SignIn = () => {
         <button className="bg-primary-yellow py-2 px-4 min-w-[80px] rounded w-[max-content] mx-auto mt-4 text-white">
           {isLoading ? <LoadSpinner /> : "Sign In"}
         </button>
-        <Notification {...data} />
+        <LoginNotification {...data} />
         <Link to="/sign-up" className="text-center dark:text-gray-300 ">
           Don't have an account? click here
         </Link>
