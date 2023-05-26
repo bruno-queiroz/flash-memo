@@ -1,4 +1,6 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { NotificationContext } from "../context/NotificationContext";
+import CRUDNotification from "./CRUDNotification";
 
 export interface ModalContainerProps {
   isModalOpen: boolean;
@@ -28,6 +30,9 @@ const ModalContainer = ({
       setIsDialogOpen(true);
     }
   }, [isModalOpen]);
+
+  const [notificationContent, setNotificationContent] =
+    useContext(NotificationContext);
   return (
     <>
       <div
@@ -36,11 +41,15 @@ const ModalContainer = ({
         } fixed bottom-0 left-0 right-0 w-full h-full bg-[rgba(0,0,0,0.7)] z-10`}
         onClick={closeModal}
       />
+      <CRUDNotification
+        {...notificationContent}
+        {...{ setNotificationContent }}
+      />
 
       <dialog
         open={isDialogOpen}
         onAnimationEnd={dialogAnimationEnd}
-        className={`max-w-[500px] w-full dark:bg-neutral-800 dark:text-white rounded absolute top-0 z-10 ${
+        className={`fixed max-w-[500px] w-full dark:bg-neutral-800 dark:text-white rounded top-0 z-10 ${
           isModalOpen ? "show-modal-animation" : "close-modal-animation"
         }`}
       >
