@@ -16,12 +16,12 @@ export const getSearchedCards = async (
       }
     );
     const data: ServerResponse<DeckStudy> = await response.json();
-
     if (data?.data.cards.length === 0) {
       throw new Error("Card not found");
     }
     return data;
   } catch (err) {
-    throw new Error("test");
+    const errorMessage = (err as Error).message;
+    throw new Error(errorMessage);
   }
 };
