@@ -1,14 +1,16 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { NotificationContext } from "../context/NotificationContext";
-import CRUDNotification from "./CRUDNotification";
-import { ModalContainerContext } from "../context/ModalContainerContext";
+import React, { ReactNode, useEffect, useState } from "react";
 
 export interface ModalContainerProps {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
 }
 
-const ModalContainer = ({ children }: ModalContainerProps) => {
-  const [isModalOpen, setIsModalOpen] = useContext(ModalContainerContext);
+const ModalContainer = ({
+  children,
+  isModalOpen,
+  setIsModalOpen,
+}: ModalContainerProps) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -27,8 +29,6 @@ const ModalContainer = ({ children }: ModalContainerProps) => {
     }
   }, [isModalOpen]);
 
-  const [notificationContent, setNotificationContent] =
-    useContext(NotificationContext);
   return (
     <>
       <div
@@ -36,10 +36,6 @@ const ModalContainer = ({ children }: ModalContainerProps) => {
           isModalOpen ? "translate-y-0" : "translate-y-[-100%]"
         } fixed bottom-0 left-0 right-0 w-full h-full bg-[rgba(0,0,0,0.2)] z-10`}
         onClick={closeModal}
-      />
-      <CRUDNotification
-        {...notificationContent}
-        {...{ setNotificationContent }}
       />
 
       <dialog
