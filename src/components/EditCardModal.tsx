@@ -8,20 +8,20 @@ import { Card } from "../fetch/getStudyDeck";
 import ModalContainer from "./ModalContainer";
 import { useFlashMemoStore } from "../context/zustandStore";
 
-const EditCardModal = ({ cardId }: { cardId: string }) => {
+const EditCardModal = () => {
   const isEditModalOpen = useFlashMemoStore((state) => state.isEditModalOpen);
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
+  const {
+    back,
+    front,
+    id: cardId,
+  } = useFlashMemoStore((state) => state.cardEditData);
 
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
-
-  const { data: card, isSuccess: isGetSingleCardSuccess } = useQuery(
-    "getSingleQuery",
-    () => getSingleCard(cardId)
-  );
 
   const {
     isLoading: isEditCardLoading,
@@ -58,14 +58,15 @@ const EditCardModal = ({ cardId }: { cardId: string }) => {
 
   useEffect(() => {
     if (
-      isGetSingleCardSuccess &&
+      front &&
+      back &&
       cardFrontInputRef.current &&
       cardBackInputRef.current
     ) {
-      cardFrontInputRef.current.value = card?.data?.front;
-      cardBackInputRef.current.value = card?.data?.back;
+      cardFrontInputRef.current.value = front;
+      cardBackInputRef.current.value = back;
     }
-  }, [isGetSingleCardSuccess]);
+  }, [front, back]);
 
   return (
     <>
