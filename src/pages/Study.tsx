@@ -90,9 +90,11 @@ const Study = () => {
     reviewCard(recallFeedback);
   };
 
-  const onReset = () => {
+  const onReset = async () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
+
+      await patchCardDates(cards?.data?.[index], "reset");
 
       if (isTheFinalCard) {
         setIsResetedCardsBeingShown(true);
@@ -119,9 +121,6 @@ const Study = () => {
       setIsShowingAnswer(false);
 
       if (isResetedCardsBeingShown) {
-        const isTheFinalResetedCard =
-          resetedCardsIndex + 1 === resetedCards.length;
-
         const isTheFirstResetedCard = resetedCardsIndex === 0;
 
         if (isTheFirstResetedCard) {
@@ -154,8 +153,6 @@ const Study = () => {
           return;
         }
 
-        if (isTheFinalResetedCard) {
-        }
         setCardsCounter({
           ...cardsCounter,
           resetedCards: cardsCounter.resetedCards + 1,
