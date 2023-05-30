@@ -1,17 +1,20 @@
 import React, { useEffect, useRef } from "react";
-import ModalContainer, { ModalContainerProps } from "./ModalContainer";
+import ModalContainer from "./ModalContainer";
 import Input from "./Input";
 import { useMutation, useQueryClient } from "react-query";
 import { DeckForm, postDeck } from "../fetch/postDeck";
-
-type CreateDeckModalProps = Omit<ModalContainerProps, "children">;
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const DIALOG_ANIMATION_TIME = 150;
 
-const CreateDeckModal = ({
-  isModalOpen,
-  setIsModalOpen,
-}: CreateDeckModalProps) => {
+const CreateDeckModal = () => {
+  const isCreateDeckModalOpen = useFlashMemoStore(
+    (state) => state.isCreateDeckModalOpen
+  );
+  const setIsCreateDeckModalOpen = useFlashMemoStore(
+    (state) => state.setIsCreateDeckModalOpen
+  );
+
   const deckNameRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { mutate: createDeckMutate } = useMutation(
@@ -34,15 +37,20 @@ const CreateDeckModal = ({
   };
 
   useEffect(() => {
-    if (isModalOpen && deckNameRef.current) {
+    if (isCreateDeckModalOpen && deckNameRef.current) {
       setTimeout(() => {
         deckNameRef.current?.focus();
       }, DIALOG_ANIMATION_TIME);
     }
-  }, [isModalOpen]);
+  }, [isCreateDeckModalOpen]);
 
   return (
-    <ModalContainer {...{ isModalOpen, setIsModalOpen }}>
+    <ModalContainer
+      {...{
+        isModalOpen: isCreateDeckModalOpen,
+        setIsModalOpen: setIsCreateDeckModalOpen,
+      }}
+    >
       <form className="flex flex-col" onSubmit={createDeck}>
         <h3 className="text-2xl font-semibold mb-4">Create Deck</h3>
         <Input
