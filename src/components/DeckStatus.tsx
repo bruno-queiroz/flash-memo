@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi";
-import DeleteDeckModal from "./DeleteDeckModal";
 import { DeckStatusType } from "../fetch/getDecks";
 import { useFlashMemoStore } from "../context/zustandStore";
 
@@ -68,7 +67,7 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
             />
           </button>
           <div
-            className={`absolute z-10 left-[50%] flex-col top-[100%] translate-x-[-50%] py-2 w-[120px] dark:bg-neutral-950 dark:text-white bg-dark-blue text-white rounded text-sm ${
+            className={`absolute z-10 right-0 lg:left-[50%] flex-col top-[100%] lg:translate-x-[-50%] py-2 w-[120px] dark:bg-neutral-950 dark:text-white bg-dark-blue text-white rounded text-sm ${
               isOptionsActive ? "flex" : "hidden"
             }`}
           >
