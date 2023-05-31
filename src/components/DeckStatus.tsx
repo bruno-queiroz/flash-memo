@@ -5,30 +5,43 @@ import DeleteDeckModal from "./DeleteDeckModal";
 import { DeckStatusType } from "../fetch/getDecks";
 import { useFlashMemoStore } from "../context/zustandStore";
 
-export const DeckStatus = ({ name, cards }: DeckStatusType) => {
+export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
   const setIsDeleteDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsDeleteDeckModalOpen
   );
+  const setDeckData = useFlashMemoStore((state) => state.setDeckData);
+  const deckData = useFlashMemoStore((state) => state.deckData);
+
   const [isOptionsActive, setIsOptionsActive] = useState(false);
 
+  const openDeckOptions = () => {
+    setIsOptionsActive(!isOptionsActive);
+    setDeckData({ deckId: id, deckName: name });
+  };
+
+  const openDeckDeleteModal = () => {
+    setIsDeleteDeckModalOpen(true);
+  };
   useEffect(() => {
     const body = document.querySelector("body");
 
     const listener = (event: MouseEvent) => {
-      const isOptionsClicked =
-        (event.target as HTMLDivElement).id === "open-options";
-      if (isOptionsClicked) return;
+      const isTheOptionClicked =
+        id === deckData.deckId &&
+        (event.target as HTMLDivElement).id === "deck-option";
+
+      if (isTheOptionClicked) return;
+
       setIsOptionsActive(false);
     };
 
     body?.addEventListener("click", listener);
 
     return () => body?.removeEventListener("click", listener);
-  }, []);
+  }, [deckData]);
 
   return (
     <article className="flex items-center  rounded-lg dark:bg-neutral-900 shadow-sm bg-gray-200">
-      <DeleteDeckModal deckName={name} />
       <Link
         to={`/study/${name}`}
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
@@ -46,13 +59,12 @@ export const DeckStatus = ({ name, cards }: DeckStatusType) => {
         <div className="flex items-center relative">
           <button
             className="text-2xl text-dark-blue dark:text-aqua-blue relative"
-            onClick={() => setIsOptionsActive(!isOptionsActive)}
-            id="open-options"
+            onClick={openDeckOptions}
           >
             <DotsIcon />
             <div
               className="absolute w-full h-full bg-transparent top-0"
-              id="open-options"
+              id="deck-option"
             />
           </button>
           <div
@@ -62,7 +74,7 @@ export const DeckStatus = ({ name, cards }: DeckStatusType) => {
           >
             <button
               className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors"
-              onClick={() => setIsDeleteDeckModalOpen(true)}
+              onClick={openDeckDeleteModal}
             >
               Delete Deck
             </button>
