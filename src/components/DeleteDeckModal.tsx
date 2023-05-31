@@ -1,11 +1,8 @@
 import { useFlashMemoStore } from "../context/zustandStore";
 import ModalContainer from "./ModalContainer";
 
-type DeleteDeckModalProps = {
-  deckName: string;
-};
-
-const DeleteDeckModal = ({ deckName }: DeleteDeckModalProps) => {
+const DeleteDeckModal = () => {
+  const { deckName } = useFlashMemoStore((state) => state.deckData);
   const isDeleteDeckModalOpen = useFlashMemoStore(
     (state) => state.isDeleteDeckModalOpen
   );
