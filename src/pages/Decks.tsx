@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { getDecks } from "../fetch/getDecks";
 import { useFlashMemoStore } from "../context/zustandStore";
 import DeleteDeckModal from "../components/DeleteDeckModal";
+import CRUDNotification from "../components/CRUDNotification";
 
 const Decks = () => {
   const { data: decks } = useQuery("decksData", getDecks);
@@ -12,6 +13,7 @@ const Decks = () => {
   );
   return (
     <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300 min-h-screen">
+      <CRUDNotification />
       <DeleteDeckModal />
       <CreateDeckModal />
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
