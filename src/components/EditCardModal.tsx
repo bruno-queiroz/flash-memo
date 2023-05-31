@@ -19,6 +19,10 @@ const EditCardModal = () => {
     id: cardId,
   } = useFlashMemoStore((state) => state.cardEditData);
 
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
+
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
   const queryClient = useQueryClient();
@@ -67,6 +71,19 @@ const EditCardModal = () => {
       cardBackInputRef.current.value = back;
     }
   }, [front, back]);
+
+  useEffect(() => {
+    if (isEditCardError) {
+      const errorMsg = (editCardError as Error).message;
+
+      setNotificationContent({
+        isNotificationShowing: true,
+        isOk: false,
+        msg: errorMsg,
+      });
+      return;
+    }
+  }, [isEditCardError]);
 
   return (
     <>
