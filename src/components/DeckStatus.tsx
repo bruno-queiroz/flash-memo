@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi";
 import DeleteDeckModal from "./DeleteDeckModal";
 import { DeckStatusType } from "../fetch/getDecks";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 export const DeckStatus = ({ name, cards }: DeckStatusType) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const setIsDeleteDeckModalOpen = useFlashMemoStore(
+    (state) => state.setIsDeleteDeckModalOpen
+  );
   const [isOptionsActive, setIsOptionsActive] = useState(false);
 
   useEffect(() => {
@@ -25,13 +28,7 @@ export const DeckStatus = ({ name, cards }: DeckStatusType) => {
 
   return (
     <article className="flex items-center  rounded-lg dark:bg-neutral-900 shadow-sm bg-gray-200">
-      <DeleteDeckModal
-        {...{
-          isModalOpen: isDeleteModalOpen,
-          setIsModalOpen: setIsDeleteModalOpen,
-          deckName: name,
-        }}
-      />
+      <DeleteDeckModal deckName={name} />
       <Link
         to={`/study/${name}`}
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
@@ -65,7 +62,7 @@ export const DeckStatus = ({ name, cards }: DeckStatusType) => {
           >
             <button
               className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors"
-              onClick={() => setIsDeleteModalOpen(true)}
+              onClick={() => setIsDeleteDeckModalOpen(true)}
             >
               Delete Deck
             </button>
