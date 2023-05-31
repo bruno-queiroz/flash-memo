@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
 import Form from "./Form";
 import LoadSpinner from "./LoadSpinner";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getSingleCard } from "../fetch/getSingleCard";
+import { useMutation, useQueryClient } from "react-query";
 import { patchCardContent } from "../fetch/patchCardContent";
 import { Card } from "../fetch/getStudyDeck";
 import ModalContainer from "./ModalContainer";
@@ -55,6 +54,16 @@ const EditCardModal = () => {
         front: cardFrontInputRef.current.value,
         back: cardBackInputRef.current.value,
       };
+
+      if (newCard.front === front && newCard.back === back) {
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: true,
+          msg: "No changes",
+        });
+        setIsEditModalOpen(false);
+        return;
+      }
 
       editCardMutate({ newCard, cardId });
     }
