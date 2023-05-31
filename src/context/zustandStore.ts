@@ -15,11 +15,16 @@ interface FlashMemoState {
   cardEditData: CardEditData;
   notificationContent: NotificationContent;
   isDeleteDeckModalOpen: boolean;
+  deckData: {
+    deckId: string;
+    deckName: string;
+  };
   setIsCreateDeckModalOpen: (boolean: boolean) => void;
   setIsEditModalOpen: (boolean: boolean) => void;
   setCardEditData: (cardEditData: CardEditData) => void;
   setNotificationContent: (content: NotificationContent) => void;
   setIsDeleteDeckModalOpen: (boolean: boolean) => void;
+  setDeckData: (deckData: { deckId: string; deckName: string }) => void;
 }
 
 export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
@@ -28,6 +33,10 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
   cardEditData: {} as CardEditData,
   notificationContent: {} as NotificationContent,
   isDeleteDeckModalOpen: false,
+  deckData: {
+    deckId: "",
+    deckName: "",
+  },
   setIsCreateDeckModalOpen: (boolean) =>
     set(() => ({ isCreateDeckModalOpen: boolean })),
   setIsEditModalOpen: (boolean) => set(() => ({ isEditModalOpen: boolean })),
@@ -36,4 +45,5 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
     set(() => ({ notificationContent })),
   setIsDeleteDeckModalOpen: (boolean) =>
     set(() => ({ isDeleteDeckModalOpen: boolean })),
+  setDeckData: (deckData) => set(() => ({ deckData })),
 }));
