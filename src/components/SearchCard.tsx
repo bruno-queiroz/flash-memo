@@ -1,16 +1,18 @@
 import { Card } from "../fetch/getStudyDeck";
 import { RiDeleteBin7Line as DeleteIcon } from "react-icons/ri";
 import moment from "moment";
-import ModalContainer from "./ModalContainer";
-import { useState } from "react";
-import EditCardModal from "./EditCardModal";
-import { NotificationContentProvider } from "../context/NotificationContext";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const SearchCard = ({ front, back, reviewAt, id }: Card) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const setIsEditModalOpen = useFlashMemoStore(
+    (state) => state.setIsEditModalOpen
+  );
+
+  const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
 
   const openEditModal = () => {
-    setIsModalOpen(true);
+    setCardEditData({ front, back, id });
+    setIsEditModalOpen(true);
   };
 
   const ReviewAtNotNull = reviewAt || 1000;
@@ -19,12 +21,6 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
 
   return (
     <article className="bg-gray-200 dark:bg-neutral-900 rounded px-4 pb-4">
-      <NotificationContentProvider>
-        <ModalContainer {...{ isModalOpen, setIsModalOpen }}>
-          <EditCardModal cardId={id} />
-        </ModalContainer>
-      </NotificationContentProvider>
-
       <div className="py-4">
         <h2>{front}</h2>
       </div>
