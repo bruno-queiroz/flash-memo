@@ -5,12 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { CardForm, createCard } from "../fetch/createCard";
 import LoadSpinner from "../components/LoadSpinner";
 import CRUDNotification from "../components/CRUDNotification";
-
-export interface NotificationContent {
-  isOk: boolean | undefined;
-  msg: string | undefined;
-  isNotificationShowing: boolean;
-}
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const Add = () => {
   const { data: decks } = useQuery("decksData", getDecks);
@@ -25,8 +20,10 @@ const Add = () => {
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
-  const [notificationContent, setNotificationContent] =
-    useState<NotificationContent>({} as NotificationContent);
+
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
 
   const submitCard = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,10 +73,7 @@ const Add = () => {
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
         Add
       </h1>
-      <CRUDNotification
-        {...notificationContent}
-        {...{ setNotificationContent }}
-      />
+      <CRUDNotification />
 
       <Form onSubmit={submitCard}>
         <label className="flex flex-col gap-2">
