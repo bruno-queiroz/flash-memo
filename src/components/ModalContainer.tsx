@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 
 export interface ModalContainerProps {
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: (boolean: boolean) => void;
   children: ReactNode;
 }
 
