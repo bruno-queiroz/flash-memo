@@ -11,9 +11,6 @@ const ModalContainer = ({
   isModalOpen,
   setIsModalOpen,
 }: ModalContainerProps) => {
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const dialogAnimationEnd = (
     event: React.AnimationEvent<HTMLDialogElement>
@@ -23,6 +20,11 @@ const ModalContainer = ({
       return;
     }
   };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     if (isModalOpen) {
       setIsDialogOpen(true);
