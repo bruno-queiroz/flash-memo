@@ -3,18 +3,16 @@ import { DeckStatus } from "../components/DeckStatus";
 import CreateDeckModal from "../components/CreateDeckModal";
 import { useQuery } from "react-query";
 import { getDecks } from "../fetch/getDecks";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const Decks = () => {
   const { data: decks } = useQuery("decksData", getDecks);
-  const [isCreateDeckModalOpen, setIsCreateDeckModalOpen] = useState(false);
+  const setIsCreateDeckModalOpen = useFlashMemoStore(
+    (state) => state.setIsCreateDeckModalOpen
+  );
   return (
     <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300">
-      <CreateDeckModal
-        {...{
-          isModalOpen: isCreateDeckModalOpen,
-          setIsModalOpen: setIsCreateDeckModalOpen,
-        }}
-      />
+      <CreateDeckModal />
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
         Decks
       </h1>
