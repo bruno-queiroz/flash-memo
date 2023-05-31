@@ -1,19 +1,28 @@
-import ModalContainer, { ModalContainerProps } from "./ModalContainer";
+import { useFlashMemoStore } from "../context/zustandStore";
+import ModalContainer from "./ModalContainer";
 
 type DeleteDeckModalProps = {
   deckName: string;
-} & Omit<ModalContainerProps, "children">;
+};
 
-const DeleteDeckModal = ({
-  isModalOpen,
-  setIsModalOpen,
-  deckName,
-}: DeleteDeckModalProps) => {
+const DeleteDeckModal = ({ deckName }: DeleteDeckModalProps) => {
+  const isDeleteDeckModalOpen = useFlashMemoStore(
+    (state) => state.isDeleteDeckModalOpen
+  );
+  const setIsDeleteDeckModalOpen = useFlashMemoStore(
+    (state) => state.setIsDeleteDeckModalOpen
+  );
+
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsDeleteDeckModalOpen(false);
   };
   return (
-    <ModalContainer {...{ isModalOpen, setIsModalOpen }}>
+    <ModalContainer
+      {...{
+        isModalOpen: isDeleteDeckModalOpen,
+        setIsModalOpen: setIsDeleteDeckModalOpen,
+      }}
+    >
       <h3 className="text-2xl font-semibold mb-4">Delete Deck</h3>
       <p>
         Wanna <span className="text-primary-yellow">delete `{deckName}`</span>{" "}
