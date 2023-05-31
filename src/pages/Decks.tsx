@@ -11,7 +11,7 @@ const Decks = () => {
     (state) => state.setIsCreateDeckModalOpen
   );
   return (
-    <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300">
+    <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300 min-h-screen">
       <CreateDeckModal />
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
         Decks
