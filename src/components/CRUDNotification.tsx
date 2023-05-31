@@ -1,25 +1,21 @@
 import { useEffect } from "react";
-import { NotificationContent } from "../pages/Add";
+import { useFlashMemoStore } from "../context/zustandStore";
 
-type CRUDNotificationProps = NotificationContent & {
-  setNotificationContent: React.Dispatch<
-    React.SetStateAction<NotificationContent>
-  >;
-};
+const CRUDNotification = () => {
+  const { isNotificationShowing, isOk, msg } = useFlashMemoStore(
+    (state) => state.notificationContent
+  );
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
 
-const CRUDNotification = ({
-  msg,
-  isOk,
-  isNotificationShowing,
-  setNotificationContent,
-}: CRUDNotificationProps) => {
   useEffect(() => {
     if (isNotificationShowing) {
       setTimeout(() => {
-        setNotificationContent((prev) => ({
-          ...prev,
+        setNotificationContent({
+          ...{ isNotificationShowing, isOk, msg },
           isNotificationShowing: false,
-        }));
+        });
       }, 2000);
     }
   }, [isNotificationShowing]);
