@@ -2,10 +2,22 @@ import { Card } from "../fetch/getStudyDeck";
 import { RiDeleteBin7Line as DeleteIcon } from "react-icons/ri";
 import moment from "moment";
 import { useFlashMemoStore } from "../context/zustandStore";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteCard } from "../fetch/deleteCard";
 
 const SearchCard = ({ front, back, reviewAt, id }: Card) => {
+  const queryClient = useQueryClient();
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
+  );
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
+  const { mutateAsync: deleteCardMutate } = useMutation(
+    (cardId: string) => deleteCard(cardId),
+    {
+      onSuccess: () => queryClient.invalidateQueries("searchCards"),
+    }
   );
 
   const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
@@ -13,6 +25,25 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const openEditModal = () => {
     setCardEditData({ front, back, id });
     setIsEditModalOpen(true);
+  };
+
+  const deleteSeletedCard = async () => {
+    try {
+      const data = await deleteCardMutate(id);
+      setNotificationContent({
+        isNotificationShowing: true,
+        isOk: true,
+        msg: data?.msg,
+      });
+    } catch (err) {
+      const errMsg = (err as Error).message;
+
+      setNotificationContent({
+        isNotificationShowing: true,
+        isOk: true,
+        msg: errMsg,
+      });
+    }
   };
 
   const ReviewAtNotNull = reviewAt || 1000;
@@ -36,7 +67,10 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
           >
             Edit
           </button>
-          <button className="bg-gray-300 dark:bg-neutral-800 rounded py-1 px-3">
+          <button
+            className="bg-gray-300 dark:bg-neutral-800 rounded py-1 px-3"
+            onClick={deleteSeletedCard}
+          >
             <DeleteIcon />
           </button>
         </div>
