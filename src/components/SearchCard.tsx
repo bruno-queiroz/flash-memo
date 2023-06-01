@@ -4,6 +4,7 @@ import moment from "moment";
 import { useFlashMemoStore } from "../context/zustandStore";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteCard } from "../fetch/deleteCard";
+import LoadSpinner from "./LoadSpinner";
 
 const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const setNotificationContent = useFlashMemoStore(
     (state) => state.setNotificationContent
   );
-  const { mutateAsync: deleteCardMutate } = useMutation(
+  const { mutateAsync: deleteCardMutate, isLoading } = useMutation(
     (cardId: string) => deleteCard(cardId),
     {
       onSuccess: () => queryClient.invalidateQueries("searchCards"),
@@ -71,7 +72,7 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
             className="bg-gray-300 dark:bg-neutral-800 rounded py-1 px-3"
             onClick={deleteSeletedCard}
           >
-            <DeleteIcon />
+            {isLoading ? <LoadSpinner /> : <DeleteIcon />}
           </button>
         </div>
         <div>
