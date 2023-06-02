@@ -1,7 +1,7 @@
 import { UserForm } from "../pages/SignUp";
 import { ServerResponse } from "./postSignIn";
 
-export const postUser = async (user: UserForm) => {
+export const postSignUp = async (user: UserForm) => {
   const response = await fetch(`http://localhost:3000/sign-up`, {
     method: "POST",
     headers: {
