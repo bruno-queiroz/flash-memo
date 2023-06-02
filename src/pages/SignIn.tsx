@@ -5,20 +5,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { postSignIn } from "../fetch/postSignIn";
 import { UserForm } from "./SignUp";
-import LoginNotification from "../components/LoginNotification";
+import LoginErrorMessage from "../components/LoginErrorMessage";
 import LoadSpinner from "../components/LoadSpinner";
+import { useFlashMemoStore } from "../context/zustandStore";
+import SessionExpiredModal from "../components/SessionExpiredModal";
 
 const SignIn = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const {
-    mutate: userSignInMutate,
-    data,
+    mutateAsync: userSignInMutate,
+    error,
     isLoading,
   } = useMutation((user: UserForm) => postSignIn(user));
+  const navigate = useNavigate();
+  const setIsUserLogged = useFlashMemoStore((state) => state.setIsUserLogged);
 
-  const signIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const signIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (nameInputRef.current && passwordInputRef.current) {
@@ -26,18 +29,21 @@ const SignIn = () => {
         name: nameInputRef.current?.value,
         password: passwordInputRef.current?.value,
       };
-      userSignInMutate(user);
+
+      try {
+        await userSignInMutate(user);
+
+        setIsUserLogged(true);
+        navigate("/decks");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  useEffect(() => {
-    if (data?.isOk) {
-      navigate("/decks");
-    }
-  }, [data]);
-
   return (
     <section className="flex flex-col items-center justify-center p-4">
+      <SessionExpiredModal />
       <h1 className="text-4xl font-bold my-8 dark:text-aqua-blue text-dark-blue text-center">
         Sign In
       </h1>
@@ -53,7 +59,7 @@ const SignIn = () => {
         <button className="bg-primary-yellow py-2 px-4 min-w-[80px] rounded w-[max-content] mx-auto mt-4 text-white">
           {isLoading ? <LoadSpinner /> : "Sign In"}
         </button>
-        <LoginNotification {...data} />
+        <LoginErrorMessage errorMessage={(error as Error)?.message} />
         <Link to="/sign-up" className="text-center dark:text-gray-300 ">
           Don't have an account? click here
         </Link>
