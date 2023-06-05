@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   BsFillSunFill as SunIcon,
   BsFillMoonFill as MoonIcon,
@@ -7,10 +7,13 @@ import {
 import { IoCloseSharp as CloseIcon } from "react-icons/io5";
 import { GiHamburgerMenu as MenuIcon } from "react-icons/gi";
 import { useFlashMemoStore } from "../context/zustandStore";
+import { getLogOut } from "../fetch/getLogOut";
 
 const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
   const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+  const setIsUserLogged = useFlashMemoStore((state) => state.setIsUserLogged);
+  const navigate = useNavigate();
 
   const isDarkThemePreferred = window.matchMedia(
     "(prefers-color-scheme: dark)"
@@ -21,6 +24,12 @@ const Header = () => {
   const changeTheme = () => {
     document.documentElement.classList.toggle("dark");
     setIsDarkMode(!isDarkMode);
+  };
+
+  const logOut = async () => {
+    await getLogOut();
+    setIsUserLogged(false);
+    navigate("/");
   };
 
   return (
@@ -99,6 +108,12 @@ const Header = () => {
                         Search
                       </div>
                     </NavLink>
+                  </li>
+                  <li
+                    onClick={() => setIsNavActive(false)}
+                    className="flex p-3"
+                  >
+                    <button onClick={logOut}>Log Out</button>
                   </li>
                 </>
               ) : (
