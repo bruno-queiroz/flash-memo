@@ -7,7 +7,8 @@ import DeleteDeckModal from "../components/DeleteDeckModal";
 import CRUDNotification from "../components/CRUDNotification";
 
 const Decks = () => {
-  const { data: decks } = useQuery("decksData", getDecks);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+  const { data: decks } = useQuery(["decksData"], () => getDecks(isUserLogged));
   const setIsCreateDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsCreateDeckModalOpen
   );

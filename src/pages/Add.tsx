@@ -8,7 +8,8 @@ import CRUDNotification from "../components/CRUDNotification";
 import { useFlashMemoStore } from "../context/zustandStore";
 
 const Add = () => {
-  const { data: decks } = useQuery("decksData", getDecks);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+  const { data: decks } = useQuery(["decksData"], () => getDecks(isUserLogged));
   const {
     mutate: cardMutate,
     isLoading,

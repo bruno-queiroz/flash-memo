@@ -6,6 +6,7 @@ import { getDecks } from "../fetch/getDecks";
 import CardNotFound from "../components/CardNotFound";
 import EditCardModal from "../components/EditCardModal";
 import CRUDNotification from "../components/CRUDNotification";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const Search = () => {
   const deckSelectRef = useRef<HTMLSelectElement>(null);
@@ -22,7 +23,9 @@ const Search = () => {
       retry: 0,
     }
   );
-  const { data: decks } = useQuery("decksData", getDecks);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+
+  const { data: decks } = useQuery("decksData", () => getDecks(isUserLogged));
 
   const onSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
