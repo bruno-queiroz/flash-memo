@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,7 +49,7 @@ const SignIn = () => {
       </h1>
 
       <Form onSubmit={signIn}>
-        <Input labelText="Your Name" required ref={nameInputRef} />
+        <Input labelText="Your Name" required ref={nameInputRef} autoFocus />
         <Input
           labelText="Your Password"
           type="password"
