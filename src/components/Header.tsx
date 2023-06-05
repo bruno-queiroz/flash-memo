@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
   BsFillSunFill as SunIcon,
@@ -6,18 +6,23 @@ import {
 } from "react-icons/bs";
 import { IoCloseSharp as CloseIcon } from "react-icons/io5";
 import { GiHamburgerMenu as MenuIcon } from "react-icons/gi";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+
   const isDarkThemePreferred = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
+
   const [isDarkMode, setIsDarkMode] = useState(isDarkThemePreferred);
 
   const changeTheme = () => {
     document.documentElement.classList.toggle("dark");
     setIsDarkMode(!isDarkMode);
   };
+
   return (
     <header className="p-4">
       <div
@@ -26,8 +31,12 @@ const Header = () => {
         } fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-[rgb(0,0,0,0.7)]`}
         onClick={() => setIsNavActive(false)}
       />
-      <div className="flex items-center justify-between">
-        <div className="flex gap-6 items-center">
+      <div className="flex items-center gap-4">
+        <div
+          className={`flex w-full gap-6 items-center ${
+            !isUserLogged && "justify-between"
+          }`}
+        >
           <Link
             to="/"
             className="text-dark-blue dark:text-aqua-blue text-2xl font-bold"
@@ -47,48 +56,70 @@ const Header = () => {
               <CloseIcon />
             </button>
             <ul className="flex flex-col sm:flex-row dark:text-white">
-              <li onClick={() => setIsNavActive(false)}>
-                <NavLink
-                  to="/decks"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                      : ""
-                  }
+              {isUserLogged ? (
+                <>
+                  <li onClick={() => setIsNavActive(false)}>
+                    <NavLink
+                      to="/decks"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                          : ""
+                      }
+                    >
+                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                        Decks
+                      </div>
+                    </NavLink>
+                  </li>
+                  <li onClick={() => setIsNavActive(false)}>
+                    <NavLink
+                      to="/add"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                          : ""
+                      }
+                    >
+                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                        Add
+                      </div>
+                    </NavLink>
+                  </li>
+                  <li onClick={() => setIsNavActive(false)}>
+                    <NavLink
+                      to="/search"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
+                          : ""
+                      }
+                    >
+                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                        Search
+                      </div>
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <li
+                  onClick={() => setIsNavActive(false)}
+                  className="flex justify-end w-full"
                 >
-                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                    Decks
-                  </div>
-                </NavLink>
-              </li>
-              <li onClick={() => setIsNavActive(false)}>
-                <NavLink
-                  to="/add"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                      : ""
-                  }
-                >
-                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                    Add
-                  </div>
-                </NavLink>
-              </li>
-              <li onClick={() => setIsNavActive(false)}>
-                <NavLink
-                  to="/search"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                      : ""
-                  }
-                >
-                  <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                    Search
-                  </div>
-                </NavLink>
-              </li>
+                  <NavLink
+                    to="/sign-in"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "dark:text-aqua-blue text-dark-blue font-semibold w-full"
+                        : ""
+                    }
+                  >
+                    <div className="p-3 text-center relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
+                      Sign in
+                    </div>
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
