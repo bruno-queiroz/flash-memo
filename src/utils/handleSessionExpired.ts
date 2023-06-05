@@ -1,7 +1,8 @@
 import { useFlashMemoStore } from "../context/zustandStore";
 import { history } from "./history";
 
-const { setIsUserLogged, setIsSessionExpired } = useFlashMemoStore.getState();
+const { setIsUserLogged, setIsSessionExpiredModalOpen } =
+  useFlashMemoStore.getState();
 
 export const handleSessionExpired = (isUserLogged: boolean) => {
   if (isUserLogged) {
@@ -9,7 +10,7 @@ export const handleSessionExpired = (isUserLogged: boolean) => {
       history.navigate("/sign-in");
     }
     setIsUserLogged(false);
-    setIsSessionExpired(true);
+    setIsSessionExpiredModalOpen(true);
   } else {
     if (history.navigate) {
       history.navigate("/");
