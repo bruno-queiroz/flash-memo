@@ -5,6 +5,7 @@ import { getDecks } from "../fetch/getDecks";
 import { useFlashMemoStore } from "../context/zustandStore";
 import DeleteDeckModal from "../components/DeleteDeckModal";
 import CRUDNotification from "../components/CRUDNotification";
+import EditDeckNameModal from "../components/EditDeckNameModal";
 
 const Decks = () => {
   const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
@@ -17,6 +18,7 @@ const Decks = () => {
       <CRUDNotification />
       <DeleteDeckModal />
       <CreateDeckModal />
+      <EditDeckNameModal />
       <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
         Decks
       </h1>
