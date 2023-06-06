@@ -20,7 +20,7 @@ export const getDecks = async (isUserLogged: boolean) => {
 
   const data: ServerResponse<DeckStatusType[]> = await response.json();
 
-  if (data?.msg === "jwt expired") {
+  if (data?.msg === "Session expired") {
     handleSessionExpired(isUserLogged);
   }
   return data;

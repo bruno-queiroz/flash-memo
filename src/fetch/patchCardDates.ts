@@ -3,10 +3,13 @@ import {
   RecallFeedback,
   multiplyReviewTime,
 } from "../utils/multiplyReviewTime";
+import { ServerResponse } from "./postSignIn";
+import { handleSessionExpired } from "../utils/handleSessionExpired";
 
 export const patchCardDates = async (
   card: Card,
-  recallFeedback: keyof RecallFeedback
+  recallFeedback: keyof RecallFeedback,
+  isUserLogged: boolean
 ) => {
   card.wasCardReseted;
   const cardDates = {
@@ -25,6 +28,12 @@ export const patchCardDates = async (
       credentials: "include",
     }
   );
-  const data = await response.json();
+  const data: ServerResponse<null> = await response.json();
+
+  if (data?.msg === "Session expired") {
+    handleSessionExpired(isUserLogged);
+    return;
+  }
+
   return data;
 };

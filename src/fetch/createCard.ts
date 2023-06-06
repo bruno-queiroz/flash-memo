@@ -1,3 +1,4 @@
+import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { ServerResponse } from "./postSignIn";
 
 export interface CardForm {
@@ -6,7 +7,7 @@ export interface CardForm {
   back: string;
 }
 
-export const createCard = async (newCard: CardForm) => {
+export const createCard = async (newCard: CardForm, isUserLogged: boolean) => {
   try {
     const response = await fetch(`http://localhost:3000/create-card`, {
       method: "POST",
@@ -20,6 +21,10 @@ export const createCard = async (newCard: CardForm) => {
     const data: ServerResponse<null> = await response.json();
 
     if (!data?.isOk) {
+      if (data.msg === "Session expired") {
+        handleSessionExpired(isUserLogged);
+        return;
+      }
       throw new Error(data?.msg);
     }
     return data;

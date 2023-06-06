@@ -1,9 +1,11 @@
+import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { Card } from "./getStudyDeck";
 import { ServerResponse } from "./postSignIn";
 
 export const patchCardContent = async (
   newCard: Pick<Card, "front" | "back">,
-  cardId: string
+  cardId: string,
+  isUserLogged: boolean
 ) => {
   try {
     const response = await fetch(
@@ -19,6 +21,10 @@ export const patchCardContent = async (
     );
     const data: ServerResponse<null> = await response.json();
     if (!data?.isOk) {
+      if (data?.msg === "Session expired") {
+        handleSessionExpired(isUserLogged);
+        return;
+      }
       throw new Error(data?.msg);
     }
 
