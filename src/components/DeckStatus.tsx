@@ -8,6 +8,9 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
   const setIsDeleteDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsDeleteDeckModalOpen
   );
+  const setIsEditDeckNameModalOpen = useFlashMemoStore(
+    (state) => state.setIsEditDeckNameModalOpen
+  );
   const setDeckData = useFlashMemoStore((state) => state.setDeckData);
   const deckData = useFlashMemoStore((state) => state.deckData);
 
@@ -21,6 +24,11 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
   const openDeckDeleteModal = () => {
     setIsDeleteDeckModalOpen(true);
   };
+
+  const openEditNameDeckModal = () => {
+    setIsEditDeckNameModalOpen(true);
+  };
+
   useEffect(() => {
     const body = document.querySelector("body");
 
@@ -77,7 +85,10 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
             >
               Delete Deck
             </button>
-            <button className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors">
+            <button
+              className="p-2 hover:bg-[#1F5575] dark:hover:bg-neutral-900 transition-colors"
+              onClick={openEditNameDeckModal}
+            >
               Rename Deck
             </button>
           </div>
