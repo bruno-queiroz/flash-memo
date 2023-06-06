@@ -13,9 +13,9 @@ export const countCardAmountGroups = (cards: Card[] | undefined) => {
 
   if (cards) {
     cards.forEach((card) => {
-      if (card.wasCardReseted && card.reviewAwaitTime === 0) {
+      if (card?.wasCardReseted && card?.reviewAwaitTime === 0) {
         resetedCards++;
-      } else if (!card.wasCardReseted && card.reviewAwaitTime === 0) {
+      } else if (!card?.wasCardReseted && card?.reviewAwaitTime === 0) {
         newCards++;
       } else {
         reviewCards++;
