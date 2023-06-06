@@ -28,7 +28,7 @@ const SessionExpiredModal = () => {
 
       <div className="flex justify-end">
         <button
-          className="py-2 px-4 w-[78px] rounded dark:bg-neutral-700 mt-6  dark:text-white"
+          className="py-2 px-4 w-[78px] font-semibold rounded dark:bg-neutral-700 bg-gray-200 mt-6  dark:text-white"
           onClick={closeModal}
         >
           Ok
