@@ -11,19 +11,20 @@ import { useFlashMemoStore } from "../context/zustandStore";
 const Search = () => {
   const deckSelectRef = useRef<HTMLSelectElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const { data, isLoading, refetch, isError, error } = useQuery(
     ["searchCards"],
     () =>
       getSearchedCards(
         deckSelectRef.current?.value,
-        searchInputRef.current?.value
+        searchInputRef.current?.value,
+        isUserLogged
       ),
     {
       retry: 0,
     }
   );
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const { data: decks } = useQuery("decksData", () => getDecks(isUserLogged));
 

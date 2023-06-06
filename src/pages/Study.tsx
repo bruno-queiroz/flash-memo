@@ -11,10 +11,14 @@ import { checkCardGroup } from "../utils/checkCardGroup";
 import { patchCardDates } from "../fetch/patchCardDates";
 import { estimateNextReviewTime } from "../utils/estimateNextReviewTime";
 import { RecallFeedback } from "../utils/multiplyReviewTime";
+import { useFlashMemoStore } from "../context/zustandStore";
 
 const Study = () => {
   const { deckName } = useParams();
-  const { data: cards } = useQuery("studyDeck", () => getStudyDeck(deckName));
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+  const { data: cards } = useQuery("studyDeck", () =>
+    getStudyDeck(deckName, isUserLogged)
+  );
   const [cardsCounter, setCardsCounter] = useState<CardAmountGroups>({
     resetedCards: 0,
     newCards: 0,
@@ -37,7 +41,11 @@ const Study = () => {
       const isTheFinalCard = index + 1 === cards?.data?.length;
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
-          await patchCardDates(cards?.data?.[index], recallFeedback);
+          await patchCardDates(
+            cards?.data?.[index],
+            recallFeedback,
+            isUserLogged
+          );
           navigate("/decks");
           return;
         }
@@ -53,7 +61,11 @@ const Study = () => {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
-          await patchCardDates(resetedCards[resetedCardsIndex], recallFeedback);
+          await patchCardDates(
+            resetedCards[resetedCardsIndex],
+            recallFeedback,
+            isUserLogged
+          );
           navigate("/decks");
           return;
         }
@@ -67,7 +79,7 @@ const Study = () => {
         return;
       }
 
-      await patchCardDates(cards?.data?.[index], recallFeedback);
+      await patchCardDates(cards?.data?.[index], recallFeedback, isUserLogged);
 
       setCardsCounter({
         ...cardsCounter,
@@ -94,7 +106,7 @@ const Study = () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
 
-      await patchCardDates(cards?.data?.[index], "reset");
+      await patchCardDates(cards?.data?.[index], "reset", isUserLogged);
 
       if (isTheFinalCard) {
         setIsResetedCardsBeingShown(true);
