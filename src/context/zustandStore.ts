@@ -21,6 +21,7 @@ interface FlashMemoState {
   };
   isUserLogged: boolean;
   isSessionExpiredModalOpen: boolean;
+  isEditDeckNameModalOpen: boolean;
   setIsCreateDeckModalOpen: (boolean: boolean) => void;
   setIsEditModalOpen: (boolean: boolean) => void;
   setCardEditData: (cardEditData: CardEditData) => void;
@@ -29,6 +30,7 @@ interface FlashMemoState {
   setDeckData: (deckData: { deckId: string; deckName: string }) => void;
   setIsUserLogged: (boolean: boolean) => void;
   setIsSessionExpiredModalOpen: (boolean: boolean) => void;
+  setIsEditDeckNameModalOpen: (boolean: boolean) => void;
 }
 
 export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
@@ -43,6 +45,7 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
   },
   isUserLogged: false,
   isSessionExpiredModalOpen: false,
+  isEditDeckNameModalOpen: false,
   setIsCreateDeckModalOpen: (boolean) =>
     set(() => ({ isCreateDeckModalOpen: boolean })),
   setIsEditModalOpen: (boolean) => set(() => ({ isEditModalOpen: boolean })),
@@ -55,4 +58,6 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
   setIsUserLogged: (boolean) => set(() => ({ isUserLogged: boolean })),
   setIsSessionExpiredModalOpen: (boolean) =>
     set(() => ({ isSessionExpiredModalOpen: boolean })),
+  setIsEditDeckNameModalOpen: (boolean) =>
+    set(() => ({ isEditDeckNameModalOpen: boolean })),
 }));
