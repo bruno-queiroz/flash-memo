@@ -14,11 +14,14 @@ const CreateDeckModal = () => {
   const setIsCreateDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsCreateDeckModalOpen
   );
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const deckNameRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+
   const { mutate: createDeckMutate } = useMutation(
-    (newDeck: DeckForm) => postDeck(newDeck),
+    ({ newDeck, isUserLogged }: { newDeck: DeckForm; isUserLogged: boolean }) =>
+      postDeck(newDeck, isUserLogged),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("decksData");
@@ -32,7 +35,7 @@ const CreateDeckModal = () => {
       const newDeck = {
         deckName: deckNameRef.current.value,
       };
-      createDeckMutate(newDeck);
+      createDeckMutate({ newDeck, isUserLogged });
     }
   };
 

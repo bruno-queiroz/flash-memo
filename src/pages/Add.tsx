@@ -17,7 +17,10 @@ const Add = () => {
     isError,
     error,
     data: postCardResponse,
-  } = useMutation((newCard: CardForm) => createCard(newCard));
+  } = useMutation(
+    ({ newCard, isUserLogged }: { newCard: CardForm; isUserLogged: boolean }) =>
+      createCard(newCard, isUserLogged)
+  );
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
@@ -36,7 +39,7 @@ const Add = () => {
     };
 
     if (newCard?.back && newCard?.front && newCard?.deckId) {
-      cardMutate(newCard as CardForm);
+      cardMutate({ newCard: newCard as CardForm, isUserLogged });
     }
   };
 

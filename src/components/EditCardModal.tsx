@@ -9,6 +9,7 @@ import { useFlashMemoStore } from "../context/zustandStore";
 
 const EditCardModal = () => {
   const isEditModalOpen = useFlashMemoStore((state) => state.isEditModalOpen);
+  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
@@ -35,10 +36,12 @@ const EditCardModal = () => {
     ({
       newCard,
       cardId,
+      isUserLogged,
     }: {
       newCard: Pick<Card, "front" | "back">;
       cardId: string;
-    }) => patchCardContent(newCard, cardId),
+      isUserLogged: boolean;
+    }) => patchCardContent(newCard, cardId, isUserLogged),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("searchCards");
@@ -65,7 +68,7 @@ const EditCardModal = () => {
         return;
       }
 
-      editCardMutate({ newCard, cardId });
+      editCardMutate({ newCard, cardId, isUserLogged });
     }
   };
 
