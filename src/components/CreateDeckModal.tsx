@@ -14,12 +14,15 @@ const CreateDeckModal = () => {
   const setIsCreateDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsCreateDeckModalOpen
   );
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
   const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const deckNameRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
-  const { mutate: createDeckMutate } = useMutation(
+  const { mutateAsync: createDeckMutate } = useMutation(
     ({ newDeck, isUserLogged }: { newDeck: DeckForm; isUserLogged: boolean }) =>
       postDeck(newDeck, isUserLogged),
     {
@@ -29,18 +32,35 @@ const CreateDeckModal = () => {
     }
   );
 
-  const createDeck = (event: React.FormEvent<HTMLFormElement>) => {
+  const createDeck = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (deckNameRef.current?.value) {
       const newDeck = {
         deckName: deckNameRef.current.value,
       };
-      createDeckMutate({ newDeck, isUserLogged });
+      try {
+        const data = await createDeckMutate({ newDeck, isUserLogged });
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: true,
+          msg: data?.msg,
+        });
+        setIsCreateDeckModalOpen(false);
+      } catch (err) {
+        const errorMsg = (err as Error).message;
+
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: false,
+          msg: errorMsg,
+        });
+      }
     }
   };
 
   useEffect(() => {
     if (isCreateDeckModalOpen && deckNameRef.current) {
+      deckNameRef.current.value = "";
       setTimeout(() => {
         deckNameRef.current?.focus();
       }, DIALOG_ANIMATION_TIME);
