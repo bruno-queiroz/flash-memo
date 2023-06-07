@@ -29,9 +29,8 @@ const EditCardModal = () => {
 
   const {
     isLoading: isEditCardLoading,
-    isError: isEditCardError,
     error: editCardError,
-    mutate: editCardMutate,
+    mutateAsync: editCardMutate,
   } = useMutation(
     ({
       newCard,
@@ -45,11 +44,12 @@ const EditCardModal = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("searchCards");
+        queryClient.invalidateQueries("studyDeck");
       },
     }
   );
 
-  const editCard = (event: React.FormEvent<HTMLFormElement>) => {
+  const editCard = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (cardFrontInputRef.current && cardBackInputRef.current) {
@@ -68,7 +68,24 @@ const EditCardModal = () => {
         return;
       }
 
-      editCardMutate({ newCard, cardId, isUserLogged });
+      try {
+        const data = await editCardMutate({ newCard, cardId, isUserLogged });
+
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: true,
+          msg: data?.msg,
+        });
+        setIsEditModalOpen(false);
+      } catch (err) {
+        const errorMsg = (editCardError as Error).message;
+
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: false,
+          msg: errorMsg,
+        });
+      }
     }
   };
 
@@ -83,19 +100,6 @@ const EditCardModal = () => {
       cardBackInputRef.current.value = back;
     }
   }, [front, back]);
-
-  useEffect(() => {
-    if (isEditCardError) {
-      const errorMsg = (editCardError as Error).message;
-
-      setNotificationContent({
-        isNotificationShowing: true,
-        isOk: false,
-        msg: errorMsg,
-      });
-      return;
-    }
-  }, [isEditCardError]);
 
   return (
     <>
