@@ -12,10 +12,17 @@ import { patchCardDates } from "../fetch/patchCardDates";
 import { estimateNextReviewTime } from "../utils/estimateNextReviewTime";
 import { RecallFeedback } from "../utils/multiplyReviewTime";
 import { useFlashMemoStore } from "../context/zustandStore";
+import EditCardModal from "../components/EditCardModal";
+import CRUDNotification from "../components/CRUDNotification";
 
 const Study = () => {
   const { deckName } = useParams();
   const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
+  const setIsEditModalOpen = useFlashMemoStore(
+    (state) => state.setIsEditModalOpen
+  );
+  const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
+
   const { data: cards } = useQuery("studyDeck", () =>
     getStudyDeck(deckName, isUserLogged)
   );
@@ -212,8 +219,31 @@ const Study = () => {
     setCardsCounter(countCardAmountGroups(cards?.data));
   }, [cards]);
 
+  const openEditCardModal = () => {
+    if (cards) {
+      setIsEditModalOpen(true);
+
+      if (isResetedCardsBeingShown) {
+        const { back, id, front } = resetedCards[resetedCardsIndex];
+        setCardEditData({
+          back,
+          front,
+          id,
+        });
+      }
+      const { back, id, front } = cards.data[index];
+      setCardEditData({
+        back,
+        front,
+        id,
+      });
+    }
+  };
+
   return (
     <section className="flex flex-col items-center gap-4 p-4 min-h-[85vh]">
+      <EditCardModal />
+      <CRUDNotification />
       <div className="flex items-center w-full md:w-[80%] justify-between text-lg font-semibold">
         <div className="flex gap-1">
           <span className="text-blue-500">{cardsCounter.newCards}</span>
@@ -228,7 +258,10 @@ const Study = () => {
           >
             <BackIcon />
           </button>
-          <button className="py-[6px] px-4 bg-gray-300 dark:text-gray-300 dark:bg-neutral-900 rounded">
+          <button
+            className="py-[6px] px-4 bg-gray-300 dark:text-gray-300 dark:bg-neutral-900 rounded"
+            onClick={openEditCardModal}
+          >
             Edit
           </button>
         </div>
