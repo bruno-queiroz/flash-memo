@@ -1,11 +1,9 @@
-import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { DeckStudy } from "./getStudyDeck";
 import { ServerResponse } from "./postSignIn";
 
 export const getSearchedCards = async (
   deckId: string | undefined,
-  query: string | undefined,
-  isUserLogged: boolean
+  query: string | undefined
 ) => {
   if (!deckId || !query) {
     return;
@@ -20,10 +18,6 @@ export const getSearchedCards = async (
 
     const data: ServerResponse<DeckStudy> = await response.json();
 
-    if (data?.msg === "Session expired") {
-      handleSessionExpired(isUserLogged);
-      return;
-    }
     if (data?.data.cards.length === 0) {
       throw new Error("Card not found");
     }

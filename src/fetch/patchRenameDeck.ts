@@ -1,11 +1,6 @@
-import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { ServerResponse } from "./postSignIn";
 
-export const patchRenameDeck = async (
-  deckId: string,
-  deckName: string,
-  isUserLogged: boolean
-) => {
+export const patchRenameDeck = async (deckId: string, deckName: string) => {
   try {
     const response = await fetch(
       `http://localhost:3000/rename-deck/${deckId}`,
@@ -20,11 +15,6 @@ export const patchRenameDeck = async (
     );
 
     const data: ServerResponse<null> = await response.json();
-
-    if (data?.msg === "Session expired") {
-      handleSessionExpired(isUserLogged);
-      return;
-    }
 
     if (!data?.isOk) {
       throw new Error(data?.msg);

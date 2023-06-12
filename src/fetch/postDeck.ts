@@ -1,11 +1,10 @@
-import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { ServerResponse } from "./postSignIn";
 
 export interface DeckForm {
   deckName: string;
 }
 
-export const postDeck = async (newDeck: DeckForm, isUserLogged: boolean) => {
+export const postDeck = async (newDeck: DeckForm) => {
   try {
     const response = await fetch(`http://localhost:3000/create-deck`, {
       method: "POST",
@@ -17,11 +16,6 @@ export const postDeck = async (newDeck: DeckForm, isUserLogged: boolean) => {
     });
 
     const data: ServerResponse<null> = await response.json();
-
-    if (data?.msg === "Session expired") {
-      handleSessionExpired(isUserLogged);
-      return;
-    }
 
     if (!data?.isOk) {
       throw new Error(data?.msg);

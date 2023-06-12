@@ -1,7 +1,6 @@
-import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { ServerResponse } from "./postSignIn";
 
-export const deleteCard = async (cardId: string, isUserLogged: boolean) => {
+export const deleteCard = async (cardId: string) => {
   try {
     const response = await fetch(
       `http://localhost:3000/delete-card/${cardId}`,
@@ -14,10 +13,6 @@ export const deleteCard = async (cardId: string, isUserLogged: boolean) => {
     const data: ServerResponse<null> = await response.json();
 
     if (!data?.isOk) {
-      if (data?.msg === "Session expired") {
-        handleSessionExpired(isUserLogged);
-        return;
-      }
       throw new Error(data?.msg);
     }
 

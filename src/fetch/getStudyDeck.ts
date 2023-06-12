@@ -1,4 +1,3 @@
-import { handleSessionExpired } from "../utils/handleSessionExpired";
 import { ServerResponse } from "./postSignIn";
 
 export interface Card {
@@ -19,19 +18,11 @@ export interface DeckStudy {
   cards: Card[];
 }
 
-export const getStudyDeck = async (
-  deckName: string | undefined,
-  isUserLogged: boolean
-) => {
+export const getStudyDeck = async (deckName: string | undefined) => {
   const response = await fetch(`http://localhost:3000/study-deck/${deckName}`, {
     credentials: "include",
   });
   const data: ServerResponse<Card[]> = await response.json();
-
-  if (data?.msg === "Session expired") {
-    handleSessionExpired(isUserLogged);
-    return;
-  }
 
   return data;
 };
