@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   BsFillSunFill as SunIcon,
@@ -13,6 +13,9 @@ const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
   const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const setIsUserLogged = useFlashMemoStore((state) => state.setIsUserLogged);
+  const setIsSessionExpiredModalOpen = useFlashMemoStore(
+    (state) => state.setIsSessionExpiredModalOpen
+  );
   const navigate = useNavigate();
 
   const isDarkThemePreferred = window.matchMedia(
@@ -28,9 +31,18 @@ const Header = () => {
 
   const logOut = async () => {
     await getLogOut();
-    setIsUserLogged(false);
-    navigate("/");
+    setIsUserLogged(null);
   };
+
+  useEffect(() => {
+    if (isUserLogged === false) {
+      setIsSessionExpiredModalOpen(true);
+      navigate("/sign-in");
+    }
+    if (isUserLogged === null) {
+      navigate("/");
+    }
+  }, [isUserLogged]);
 
   return (
     <header className="p-4">
