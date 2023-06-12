@@ -1,5 +1,5 @@
-import moment from "moment";
 import { RecallFeedback, multiplyReviewTime } from "./multiplyReviewTime";
+import { formatDate } from "./formatDate";
 
 export const estimateNextReviewTime = (
   reviewAt: Date | null | undefined,
@@ -7,17 +7,15 @@ export const estimateNextReviewTime = (
   recallFeedback: keyof RecallFeedback
 ) => {
   let estimatedTime;
-  const now = new Date().getTime();
+
   if (reviewAt && reviewAwaitTime) {
-    estimatedTime = moment(
-      now + multiplyReviewTime(reviewAwaitTime, recallFeedback)
-    ).fromNow(true);
+    estimatedTime = formatDate(
+      multiplyReviewTime(reviewAwaitTime, recallFeedback)
+    );
     return estimatedTime;
   }
 
-  estimatedTime = moment(
-    now + multiplyReviewTime(null, recallFeedback)
-  ).fromNow(true);
+  estimatedTime = formatDate(multiplyReviewTime(null, recallFeedback));
 
   return estimatedTime;
 };
