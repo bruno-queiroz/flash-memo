@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import { useEffect } from "react";
@@ -8,7 +8,6 @@ import Decks from "./pages/Decks";
 import Add from "./pages/Add";
 import Study from "./pages/Study";
 import Search from "./pages/Search";
-import { history } from "./utils/history";
 
 const App = () => {
   useEffect(() => {
@@ -22,7 +21,6 @@ const App = () => {
     }
   }, []);
 
-  history.navigate = useNavigate();
   return (
     <>
       <Header />
