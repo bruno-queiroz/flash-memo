@@ -35,12 +35,10 @@ const EditCardModal = () => {
     ({
       newCard,
       cardId,
-      isUserLogged,
     }: {
       newCard: Pick<Card, "front" | "back">;
       cardId: string;
-      isUserLogged: boolean;
-    }) => patchCardContent(newCard, cardId, isUserLogged),
+    }) => patchCardContent(newCard, cardId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("searchCards");
@@ -69,7 +67,7 @@ const EditCardModal = () => {
       }
 
       try {
-        const data = await editCardMutate({ newCard, cardId, isUserLogged });
+        const data = await editCardMutate({ newCard, cardId });
 
         setNotificationContent({
           isNotificationShowing: true,

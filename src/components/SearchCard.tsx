@@ -11,13 +11,11 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const setNotificationContent = useFlashMemoStore(
     (state) => state.setNotificationContent
   );
   const { mutateAsync: deleteCardMutate, isLoading } = useMutation(
-    ({ cardId, isUserLogged }: { cardId: string; isUserLogged: boolean }) =>
-      deleteCard(cardId, isUserLogged),
+    (cardId: string) => deleteCard(cardId),
     {
       onSuccess: () => queryClient.invalidateQueries("searchCards"),
     }
@@ -32,7 +30,7 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
 
   const deleteSeletedCard = async () => {
     try {
-      const data = await deleteCardMutate({ cardId: id, isUserLogged });
+      const data = await deleteCardMutate(id);
       setNotificationContent({
         isNotificationShowing: true,
         isOk: true,

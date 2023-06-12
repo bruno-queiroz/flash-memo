@@ -7,13 +7,11 @@ import LoadSpinner from "./LoadSpinner";
 const DeleteDeckModal = () => {
   const { deckName } = useFlashMemoStore((state) => state.deckData);
   const deckData = useFlashMemoStore((state) => state.deckData);
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteDeckMutate, isLoading } = useMutation(
-    ({ deckId, isUserLogged }: { deckId: string; isUserLogged: boolean }) =>
-      deleteDeck(deckId, isUserLogged),
+    (deckId: string) => deleteDeck(deckId),
     {
       onSuccess: () => queryClient.invalidateQueries("decksData"),
     }
@@ -31,10 +29,7 @@ const DeleteDeckModal = () => {
 
   const deleteSelectedDeck = async () => {
     try {
-      const data = await deleteDeckMutate({
-        deckId: deckData?.deckId,
-        isUserLogged,
-      });
+      const data = await deleteDeckMutate(deckData?.deckId);
       setNotificationContent({
         isNotificationShowing: true,
         isOk: true,

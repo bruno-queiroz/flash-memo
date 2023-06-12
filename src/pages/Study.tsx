@@ -17,15 +17,12 @@ import CRUDNotification from "../components/CRUDNotification";
 
 const Study = () => {
   const { deckName } = useParams();
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
   const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
 
-  const { data: cards } = useQuery("studyDeck", () =>
-    getStudyDeck(deckName, isUserLogged)
-  );
+  const { data: cards } = useQuery("studyDeck", () => getStudyDeck(deckName));
   const [cardsCounter, setCardsCounter] = useState<CardAmountGroups>({
     resetedCards: 0,
     newCards: 0,
@@ -48,11 +45,7 @@ const Study = () => {
       const isTheFinalCard = index + 1 === cards?.data?.length;
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
-          await patchCardDates(
-            cards?.data?.[index],
-            recallFeedback,
-            isUserLogged
-          );
+          await patchCardDates(cards?.data?.[index], recallFeedback);
           navigate("/decks");
           return;
         }
@@ -68,11 +61,7 @@ const Study = () => {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
-          await patchCardDates(
-            resetedCards[resetedCardsIndex],
-            recallFeedback,
-            isUserLogged
-          );
+          await patchCardDates(resetedCards[resetedCardsIndex], recallFeedback);
           navigate("/decks");
           return;
         }
@@ -86,7 +75,7 @@ const Study = () => {
         return;
       }
 
-      await patchCardDates(cards?.data?.[index], recallFeedback, isUserLogged);
+      await patchCardDates(cards?.data?.[index], recallFeedback);
 
       setCardsCounter({
         ...cardsCounter,
@@ -113,7 +102,7 @@ const Study = () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
 
-      await patchCardDates(cards?.data?.[index], "reset", isUserLogged);
+      await patchCardDates(cards?.data?.[index], "reset");
 
       if (isTheFinalCard) {
         setIsResetedCardsBeingShown(true);

@@ -9,22 +9,14 @@ const EditDeckNameModal = () => {
   const deckNameInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const { mutateAsync: renameDeckMutate } = useMutation(
-    ({
-      deckId,
-      deckName,
-      isUserLogged,
-    }: {
-      deckId: string;
-      deckName: string;
-      isUserLogged: boolean;
-    }) => patchRenameDeck(deckId, deckName, isUserLogged),
+    ({ deckId, deckName }: { deckId: string; deckName: string }) =>
+      patchRenameDeck(deckId, deckName),
     {
       onSuccess: () => queryClient.invalidateQueries("decksData"),
     }
   );
 
   const { deckName, deckId } = useFlashMemoStore((state) => state.deckData);
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const isEditDeckNameModalOpen = useFlashMemoStore(
     (state) => state.isEditDeckNameModalOpen
   );
@@ -42,7 +34,6 @@ const EditDeckNameModal = () => {
         const data = await renameDeckMutate({
           deckId,
           deckName: deckNameInputRef.current.value,
-          isUserLogged,
         });
 
         setNotificationContent({

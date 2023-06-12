@@ -17,14 +17,12 @@ const CreateDeckModal = () => {
   const setNotificationContent = useFlashMemoStore(
     (state) => state.setNotificationContent
   );
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
 
   const deckNameRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
   const { mutateAsync: createDeckMutate } = useMutation(
-    ({ newDeck, isUserLogged }: { newDeck: DeckForm; isUserLogged: boolean }) =>
-      postDeck(newDeck, isUserLogged),
+    (newDeck: DeckForm) => postDeck(newDeck),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("decksData");
@@ -39,7 +37,7 @@ const CreateDeckModal = () => {
         deckName: deckNameRef.current.value,
       };
       try {
-        const data = await createDeckMutate({ newDeck, isUserLogged });
+        const data = await createDeckMutate(newDeck);
         setNotificationContent({
           isNotificationShowing: true,
           isOk: true,

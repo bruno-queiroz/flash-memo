@@ -8,11 +8,11 @@ import CRUDNotification from "../components/CRUDNotification";
 import EditDeckNameModal from "../components/EditDeckNameModal";
 
 const Decks = () => {
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
-  const { data: decks } = useQuery(["decksData"], () => getDecks(isUserLogged));
+  const { data: decks } = useQuery(["decksData"], () => getDecks());
   const setIsCreateDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsCreateDeckModalOpen
   );
+
   return (
     <section className="flex flex-col gap-6 items-center p-4 dark:text-gray-300 min-h-screen">
       <CRUDNotification />

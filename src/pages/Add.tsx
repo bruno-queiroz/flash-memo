@@ -1,15 +1,14 @@
 import { useMutation, useQuery } from "react-query";
 import Form from "../components/Form";
 import { getDecks } from "../fetch/getDecks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { CardForm, createCard } from "../fetch/createCard";
 import LoadSpinner from "../components/LoadSpinner";
 import CRUDNotification from "../components/CRUDNotification";
 import { useFlashMemoStore } from "../context/zustandStore";
 
 const Add = () => {
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
-  const { data: decks } = useQuery(["decksData"], () => getDecks(isUserLogged));
+  const { data: decks } = useQuery(["decksData"], () => getDecks());
   const {
     mutate: cardMutate,
     isLoading,
@@ -17,10 +16,7 @@ const Add = () => {
     isError,
     error,
     data: postCardResponse,
-  } = useMutation(
-    ({ newCard, isUserLogged }: { newCard: CardForm; isUserLogged: boolean }) =>
-      createCard(newCard, isUserLogged)
-  );
+  } = useMutation((newCard: CardForm) => createCard(newCard));
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
@@ -39,7 +35,7 @@ const Add = () => {
     };
 
     if (newCard?.back && newCard?.front && newCard?.deckId) {
-      cardMutate({ newCard: newCard as CardForm, isUserLogged });
+      cardMutate(newCard as CardForm);
     }
   };
 
