@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { ServerResponse } from "./postSignIn";
 
 export const deleteCard = async (cardId: string) => {
@@ -20,5 +21,7 @@ export const deleteCard = async (cardId: string) => {
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
+  } finally {
+    updateIsUserLogged(document.cookie);
   }
 };

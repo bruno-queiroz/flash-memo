@@ -4,6 +4,7 @@ import {
   multiplyReviewTime,
 } from "../utils/multiplyReviewTime";
 import { ServerResponse } from "./postSignIn";
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 
 export const patchCardDates = async (
   card: Card,
@@ -27,6 +28,7 @@ export const patchCardDates = async (
     }
   );
   const data: ServerResponse<null> = await response.json();
+  updateIsUserLogged(document.cookie);
 
   return data;
 };

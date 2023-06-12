@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { ServerResponse } from "./postSignIn";
 
 export interface Card {
@@ -23,6 +24,7 @@ export const getStudyDeck = async (deckName: string | undefined) => {
     credentials: "include",
   });
   const data: ServerResponse<Card[]> = await response.json();
+  updateIsUserLogged(document.cookie);
 
   return data;
 };

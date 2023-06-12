@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { ServerResponse } from "./postSignIn";
 
 export interface DeckForm {
@@ -25,5 +26,7 @@ export const postDeck = async (newDeck: DeckForm) => {
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
+  } finally {
+    updateIsUserLogged(document.cookie);
   }
 };

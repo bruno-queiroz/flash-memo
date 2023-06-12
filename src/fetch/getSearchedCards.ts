@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { DeckStudy } from "./getStudyDeck";
 import { ServerResponse } from "./postSignIn";
 
@@ -25,5 +26,7 @@ export const getSearchedCards = async (
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
+  } finally {
+    updateIsUserLogged(document.cookie);
   }
 };

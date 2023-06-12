@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { Card } from "./getStudyDeck";
 import { ServerResponse } from "./postSignIn";
 
@@ -27,5 +28,7 @@ export const patchCardContent = async (
     const errorMsg = (err as Error).message;
 
     throw new Error(errorMsg);
+  } finally {
+    updateIsUserLogged(document.cookie);
   }
 };

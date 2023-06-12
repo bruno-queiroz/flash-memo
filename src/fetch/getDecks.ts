@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { ServerResponse } from "./postSignIn";
 
 export interface DeckStatusType {
@@ -18,5 +19,7 @@ export const getDecks = async () => {
   });
 
   const data: ServerResponse<DeckStatusType[]> = await response.json();
+  updateIsUserLogged(document.cookie);
+
   return data;
 };

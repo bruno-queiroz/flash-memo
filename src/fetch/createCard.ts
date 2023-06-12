@@ -1,3 +1,4 @@
+import { updateIsUserLogged } from "../utils/updateIsUserLogged";
 import { ServerResponse } from "./postSignIn";
 
 export interface CardForm {
@@ -26,5 +27,7 @@ export const createCard = async (newCard: CardForm) => {
   } catch (err) {
     const errorMsg = (err as Error).message;
     throw new Error(errorMsg);
+  } finally {
+    updateIsUserLogged(document.cookie);
   }
 };
