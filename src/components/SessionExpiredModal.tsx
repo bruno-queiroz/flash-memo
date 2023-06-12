@@ -10,6 +10,8 @@ const SessionExpiredModal = () => {
   );
 
   const closeModal = () => {
+    document.cookie =
+      "is-user-logged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setIsSessionExpiredModalOpen(false);
   };
 
