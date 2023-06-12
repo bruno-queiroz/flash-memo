@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Card } from "../fetch/getStudyDeck";
+import { setIsUserLoggedInitialState } from "../utils/setIsUserLoggedInitialState";
 
 type CardEditData = Pick<Card, "back" | "front" | "id">;
 
@@ -43,7 +44,7 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
     deckId: "",
     deckName: "",
   },
-  isUserLogged: document.cookie.endsWith("true"),
+  isUserLogged: setIsUserLoggedInitialState(document.cookie),
   isSessionExpiredModalOpen: false,
   isEditDeckNameModalOpen: false,
   setIsCreateDeckModalOpen: (boolean) =>
