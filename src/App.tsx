@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import { useEffect } from "react";
@@ -8,16 +8,34 @@ import Decks from "./pages/Decks";
 import Add from "./pages/Add";
 import Study from "./pages/Study";
 import Search from "./pages/Search";
+import { useFlashMemoStore } from "./context/zustandStore";
 
 const App = () => {
+  const setIsDarkMode = useFlashMemoStore((state) => state.setIsDarkMode);
+
   useEffect(() => {
-    const isDarkThemePreferred = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    if (isDarkThemePreferred) {
-      document.documentElement.classList.add("dark");
-    } else {
+    const themeSelected = localStorage.getItem("theme");
+
+    if (themeSelected) {
+      if (themeSelected === "dark") {
+        document.documentElement.classList.add("dark");
+        setIsDarkMode(true);
+        return;
+      }
+      setIsDarkMode(false);
       document.documentElement.classList.remove("dark");
+    } else {
+      const isDarkThemePreferred = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      if (isDarkThemePreferred) {
+        setIsDarkMode(true);
+        document.documentElement.classList.add("dark");
+      } else {
+        setIsDarkMode(false);
+        document.documentElement.classList.remove("dark");
+      }
     }
   }, []);
 
