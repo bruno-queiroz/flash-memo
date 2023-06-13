@@ -235,20 +235,26 @@ const Study = () => {
       <CRUDNotification />
       <div className="flex items-center w-full md:w-[80%] justify-between text-lg font-semibold">
         <div className="flex gap-1">
-          <span className="text-blue-500">{cardsCounter.newCards}</span>
-          <span className="text-red-500">{cardsCounter.resetedCards}</span>
-          <span className="text-green-500">{cardsCounter.reviewCards}</span>
+          <span className="text-[#05668d] dark:text-[#ff8800]">
+            {cardsCounter.newCards}
+          </span>
+          <span className="text-[#00a5cf] dark:text-[#ffaa00] ">
+            {cardsCounter.resetedCards}
+          </span>
+          <span className="text-[#25a18e] dark:text-[#ffdd00] ">
+            {cardsCounter.reviewCards}
+          </span>
         </div>
         <div className="flex gap-4">
           <button
-            className="py-[6px] px-4 bg-gray-300 dark:text-gray-300 dark:bg-neutral-900 rounded"
+            className="py-[6px] px-4 bg-gray-200 dark:text-gray-300 dark:bg-neutral-900 rounded"
             disabled={isReturnOneCardDisable}
             onClick={onReturnOneCard}
           >
             <BackIcon />
           </button>
           <button
-            className="py-[6px] px-4 bg-gray-300 dark:text-gray-300 dark:bg-neutral-900 rounded"
+            className="py-[6px] px-4 bg-gray-200 dark:text-gray-300 dark:bg-neutral-900 rounded"
             onClick={openEditCardModal}
           >
             Edit
@@ -257,7 +263,7 @@ const Study = () => {
       </div>
 
       <div className="mx-auto w-full md:max-w-[80%]">
-        <div className="flex flex-col gap-4  shadow-md w-full p-4 rounded-tl-md rounded-tr-md text-center bg-gray-300 dark:bg-neutral-900 dark:text-gray-300 ">
+        <div className="flex flex-col gap-4  shadow-md w-full p-4 rounded-tl-md rounded-tr-md text-center bg-gray-200 dark:bg-neutral-900 dark:text-gray-300 ">
           <h2 className="py-2 font-semibold text-lg">
             {isResetedCardsBeingShown
               ? resetedCards[resetedCardsIndex]?.front
@@ -266,7 +272,7 @@ const Study = () => {
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
         </div>
         <div
-          className={`shadow-md w-full p-4  bg-gray-300 dark:bg-neutral-900 dark:text-gray-300  text-start transition-transform ease-in origin-top ${
+          className={`shadow-md w-full p-4  bg-gray-200 dark:bg-neutral-900 dark:text-gray-200  text-start transition-transform ease-in origin-top ${
             isShowingAnswer ? "scale-y-100 h-full" : "scale-y-0 h-[1px]"
           }`}
         >
@@ -276,7 +282,7 @@ const Study = () => {
         </div>
       </div>
 
-      <div className="flex gap-4 text-white mt-auto font-semibold">
+      <div className="flex gap-4 text-white mt-auto font-semibold ">
         {isShowingAnswer ? (
           <>
             <button
@@ -304,7 +310,7 @@ const Study = () => {
               </button>
             </div>
             <div className="flex flex-col">
-              <span className="text-green-500 mx-auto mb-1">
+              <span className=" mx-auto mb-1 text-[#00a5cf]">
                 {estimateNextReviewTime(
                   cards?.data?.[index]?.reviewAt,
                   cards?.data?.[index]?.reviewAwaitTime,
@@ -313,14 +319,14 @@ const Study = () => {
               </span>
 
               <button
-                className="py-2 px-4 rounded text-black bg-green-500"
+                className="py-2 px-4 rounded bg-[#00a5cf]"
                 onClick={() => onGood("good")}
               >
                 good
               </button>
             </div>
             <div className="flex flex-col">
-              <span className="text-blue-500 mx-auto mb-1">
+              <span className="text-[#25a18e] mx-auto mb-1">
                 {estimateNextReviewTime(
                   cards?.data?.[index]?.reviewAt,
                   cards?.data?.[index]?.reviewAwaitTime,
@@ -329,7 +335,7 @@ const Study = () => {
               </span>
 
               <button
-                className="py-2 px-4 rounded bg-blue-500"
+                className="py-2 px-4 rounded bg-[#25a18e]"
                 onClick={() => onEasy("easy")}
               >
                 easy
