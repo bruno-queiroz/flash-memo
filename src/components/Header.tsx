@@ -16,16 +16,16 @@ const Header = () => {
   const setIsSessionExpiredModalOpen = useFlashMemoStore(
     (state) => state.setIsSessionExpiredModalOpen
   );
+  const isDarkMode = useFlashMemoStore((state) => state.isDarkMode);
+  const setIsDarkMode = useFlashMemoStore((state) => state.setIsDarkMode);
+
   const navigate = useNavigate();
-
-  const isDarkThemePreferred = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-
-  const [isDarkMode, setIsDarkMode] = useState(isDarkThemePreferred);
 
   const changeTheme = () => {
     document.documentElement.classList.toggle("dark");
+
+    localStorage.setItem("theme", !isDarkMode ? "dark" : "light");
+
     setIsDarkMode(!isDarkMode);
   };
 
