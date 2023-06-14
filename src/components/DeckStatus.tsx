@@ -12,6 +12,9 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
     (state) => state.setIsEditDeckNameModalOpen
   );
   const setDeckData = useFlashMemoStore((state) => state.setDeckData);
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
   const deckData = useFlashMemoStore((state) => state.deckData);
 
   const [isOptionsActive, setIsOptionsActive] = useState(false);
@@ -47,10 +50,23 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
     return () => body?.removeEventListener("click", listener);
   }, [deckData]);
 
+  const checkDeckCardsAvailability = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (!cards.newCards && !cards.resetedCards && !cards.reviewCards) {
+      e.preventDefault();
+      setNotificationContent({
+        isNotificationShowing: true,
+        isOk: false,
+        msg: "No Cards to Study in this deck",
+      });
+    }
+  };
   return (
     <article className="flex items-center  rounded-lg dark:bg-neutral-900 shadow-sm bg-gray-200">
       <Link
         to={`/study/${name}`}
+        onClick={checkDeckCardsAvailability}
         className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
       >
         {name}
