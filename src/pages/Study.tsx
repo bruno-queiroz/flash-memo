@@ -20,9 +20,15 @@ const Study = () => {
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
+  const setNotificationContent = useFlashMemoStore(
+    (state) => state.setNotificationContent
+  );
   const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
 
-  const { data: cards } = useQuery("studyDeck", () => getStudyDeck(deckName));
+  const { data: cards } = useQuery("studyDeck", () => getStudyDeck(deckName), {
+    cacheTime: 0,
+  });
+
   const [cardsCounter, setCardsCounter] = useState<CardAmountGroups>({
     resetedCards: 0,
     newCards: 0,
@@ -205,7 +211,17 @@ const Study = () => {
   }, [index]);
 
   useEffect(() => {
-    setCardsCounter(countCardAmountGroups(cards?.data));
+    const data = cards?.data;
+    setCardsCounter(countCardAmountGroups(data));
+
+    if (data?.length === 0) {
+      navigate("/decks");
+      setNotificationContent({
+        isNotificationShowing: true,
+        isOk: false,
+        msg: "No Cards to Study in this deck",
+      });
+    }
   }, [cards]);
 
   const openEditCardModal = () => {
