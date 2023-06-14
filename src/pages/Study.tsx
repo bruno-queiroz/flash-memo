@@ -53,6 +53,11 @@ const Study = () => {
         if (resetedCards.length === 0) {
           await patchCardDates(cards?.data?.[index], recallFeedback);
           navigate("/decks");
+          setNotificationContent({
+            isNotificationShowing: true,
+            isOk: true,
+            msg: "Deck Study Completed",
+          });
           return;
         }
         if (cardsCounter[cardGroup] === 1) {
@@ -69,6 +74,11 @@ const Study = () => {
         if (isTheFinalResetedCard) {
           await patchCardDates(resetedCards[resetedCardsIndex], recallFeedback);
           navigate("/decks");
+          setNotificationContent({
+            isNotificationShowing: true,
+            isOk: true,
+            msg: "Deck Study Completed",
+          });
           return;
         }
         setCardsCounter({
@@ -286,9 +296,11 @@ const Study = () => {
             isShowingAnswer ? "scale-y-100 h-full" : "scale-y-0 h-[1px]"
           }`}
         >
-          {isResetedCardsBeingShown
-            ? resetedCards?.[resetedCardsIndex]?.back
-            : cards?.data?.[index]?.back}
+          <p className={`${isShowingAnswer ? "block" : "hidden"}`}>
+            {isResetedCardsBeingShown
+              ? resetedCards?.[resetedCardsIndex]?.back
+              : cards?.data?.[index]?.back}
+          </p>
         </div>
       </div>
 
