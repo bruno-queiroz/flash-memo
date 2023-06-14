@@ -251,15 +251,9 @@ const Study = () => {
       <CRUDNotification />
       <div className="flex items-center w-full md:w-[80%] justify-between text-lg font-semibold">
         <div className="flex gap-1">
-          <span className="text-[#05668d] dark:text-[#ff8800]">
-            {cardsCounter.newCards}
-          </span>
-          <span className="text-[#00a5cf] dark:text-[#ffaa00] ">
-            {cardsCounter.resetedCards}
-          </span>
-          <span className="text-[#25a18e] dark:text-[#ffdd00] ">
-            {cardsCounter.reviewCards}
-          </span>
+          <span className="text-[#05668d]">{cardsCounter.newCards}</span>
+          <span className="text-[#00a5cf]">{cardsCounter.resetedCards}</span>
+          <span className="text-[#25a18e]">{cardsCounter.reviewCards}</span>
         </div>
         <div className="flex gap-4">
           <button
