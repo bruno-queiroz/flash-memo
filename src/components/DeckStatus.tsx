@@ -58,14 +58,18 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
 
       <div className="flex gap-6 p-4">
         <div className="flex gap-1">
-          <span className="text-blue-500">{cards.newCards}</span>
-          <span className="text-red-500">{cards.resetedCards}</span>
-          <span className="text-green-500">{cards.reviewCards}</span>
+          <span className="text-[#05668d] font-semibold">{cards.newCards}</span>
+          <span className="text-[#00a5cf] font-semibold">
+            {cards.resetedCards}
+          </span>
+          <span className="text-[#25a18e] font-semibold">
+            {cards.reviewCards}
+          </span>
         </div>
 
         <div className="flex items-center relative">
           <button
-            className="text-2xl text-dark-blue dark:text-aqua-blue relative"
+            className="text-2xl text-dark-blue dark:text-white relative"
             onClick={openDeckOptions}
           >
             <DotsIcon />
