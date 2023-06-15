@@ -16,19 +16,29 @@ export const patchCardDates = async (
     reviewAwaitTime: multiplyReviewTime(card?.reviewAwaitTime, recallFeedback),
     wasCardReseted: recallFeedback === "reset",
   };
-  const response = await fetch(
-    `http://localhost:3000/patch-card-dates/${card?.id}`,
-    {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(cardDates),
-      credentials: "include",
-    }
-  );
-  const data: ServerResponse<null> = await response.json();
-  updateIsUserLogged(document.cookie);
+  try {
+    const response = await fetch(
+      `http://localhost:3000/patch-card-dates/${card?.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cardDates),
+        credentials: "include",
+      }
+    );
+    const data: ServerResponse<null> = await response.json();
 
-  return data;
+    if (!data?.isOk) {
+      throw new Error(data?.msg);
+    }
+
+    return data;
+  } catch (err) {
+    const errorMessage = (err as Error).message;
+    throw new Error(errorMessage);
+  } finally {
+    updateIsUserLogged(document.cookie);
+  }
 };
