@@ -9,6 +9,7 @@ import { useFlashMemoStore } from "../context/zustandStore";
 
 const Add = () => {
   const { data: decks } = useQuery(["decksData"], () => getDecks());
+  const queryClient = useQueryClient();
   const {
     mutate: cardMutate,
     isLoading,
@@ -16,7 +17,10 @@ const Add = () => {
     isError,
     error,
     data: postCardResponse,
-  } = useMutation((newCard: CardForm) => createCard(newCard));
+  } = useMutation((newCard: CardForm) => createCard(newCard), {
+    onSuccess: () => queryClient.invalidateQueries("decksData"),
+  });
+
   const cardSelectRef = useRef<HTMLSelectElement>(null);
   const cardFrontInputRef = useRef<HTMLTextAreaElement>(null);
   const cardBackInputRef = useRef<HTMLTextAreaElement>(null);
