@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Form from "../components/Form";
 import { getDecks } from "../fetch/getDecks";
 import { useEffect, useRef } from "react";
@@ -70,7 +70,7 @@ const Add = () => {
 
   return (
     <section className="flex gap-4 flex-col p-4 items-center dark:text-gray-300 text-black">
-      <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
+      <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-white">
         Add
       </h1>
       <CRUDNotification />
@@ -107,7 +107,7 @@ const Add = () => {
             className="dark:bg-neutral-800 bg-white p-2"
           ></textarea>
         </label>
-        <button className="bg-primary-yellow py-2 px-4 rounded w-[80px] mx-auto mt-4 text-white">
+        <button className="bg-primary-yellow py-2 px-4 rounded w-[80px] mx-auto mt-4 text-white font-semibold">
           {isLoading ? <LoadSpinner /> : "Create"}
         </button>
       </Form>
