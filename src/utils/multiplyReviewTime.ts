@@ -71,7 +71,7 @@ export const multiplyReviewTime = (
       reviewTime = ONE_HOUR_IN_MILLISECONDS;
       break;
     case "good":
-      reviewTime = ONE_HOUR_IN_MILLISECONDS * 6;
+      reviewTime = ONE_HOUR_IN_MILLISECONDS * 4;
       break;
     case "easy":
       reviewTime = ONE_DAY_IN_MILLISENCONDS;
