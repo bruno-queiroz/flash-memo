@@ -6,12 +6,13 @@ import { getDecks } from "../fetch/getDecks";
 import CardNotFound from "../components/CardNotFound";
 import EditCardModal from "../components/EditCardModal";
 import CRUDNotification from "../components/CRUDNotification";
+import LoadDot from "../components/LoadDot";
 
 const Search = () => {
   const deckSelectRef = useRef<HTMLSelectElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const { data, isLoading, refetch, isError, error } = useQuery(
+  const { data, refetch, isError, error, isFetching } = useQuery(
     ["searchCards"],
     () =>
       getSearchedCards(
@@ -38,7 +39,7 @@ const Search = () => {
       <EditCardModal />
 
       <section className="flex flex-col items-center p-4 dark:text-gray-300 text-black">
-        <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-aqua-blue">
+        <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-white">
           Search a Card
         </h1>
         <div className="max-w-[900px] w-full">
@@ -75,8 +76,8 @@ const Search = () => {
           </form>
 
           <div className="flex flex-col gap-4 mt-8">
-            {isLoading ? (
-              "Loading..."
+            {isFetching ? (
+              <LoadDot />
             ) : isError ? (
               <CardNotFound errorMessage={(error as Error).message} />
             ) : (
