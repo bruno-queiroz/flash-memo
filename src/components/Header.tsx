@@ -60,7 +60,7 @@ const Header = () => {
         >
           <Link
             to="/"
-            className="text-dark-blue dark:text-aqua-blue text-2xl font-bold"
+            className="text-dark-blue dark:text-white text-2xl font-bold"
           >
             Flash Memo
           </Link>
