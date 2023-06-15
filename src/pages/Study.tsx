@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, getStudyDeck } from "../fetch/getStudyDeck";
 import { TiArrowBack as BackIcon } from "react-icons/ti";
@@ -14,11 +14,21 @@ import { RecallFeedback } from "../utils/multiplyReviewTime";
 import { useFlashMemoStore } from "../context/zustandStore";
 import EditCardModal from "../components/EditCardModal";
 import CRUDNotification from "../components/CRUDNotification";
+import LoadSpinner from "../components/LoadSpinner";
+
+interface CardDatesMutation {
+  card: Card;
+  recallFeedback: keyof RecallFeedback;
+}
 
 const Study = () => {
   const { deckName } = useParams();
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
+  );
+  const { mutateAsync: cardDatesMutation, isLoading } = useMutation(
+    ({ card, recallFeedback }: CardDatesMutation) =>
+      patchCardDates(card, recallFeedback)
   );
   const setNotificationContent = useFlashMemoStore(
     (state) => state.setNotificationContent
@@ -51,14 +61,27 @@ const Study = () => {
       const isTheFinalCard = index + 1 === cards?.data?.length;
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
-          await patchCardDates(cards?.data?.[index], recallFeedback);
-          navigate("/decks");
-          setNotificationContent({
-            isNotificationShowing: true,
-            isOk: true,
-            msg: "Deck Study Completed",
-          });
-          return;
+          try {
+            await cardDatesMutation({
+              card: cards?.data?.[index],
+              recallFeedback,
+            });
+            navigate("/decks");
+            setNotificationContent({
+              isNotificationShowing: true,
+              isOk: true,
+              msg: "Deck Study Completed",
+            });
+            return;
+          } catch (err) {
+            const errMsg = (err as Error).message;
+
+            setNotificationContent({
+              isNotificationShowing: true,
+              isOk: false,
+              msg: errMsg,
+            });
+          }
         }
         if (cardsCounter[cardGroup] === 1) {
           setCardsCounter({
@@ -72,14 +95,27 @@ const Study = () => {
         const isTheFinalResetedCard =
           resetedCardsIndex + 1 === resetedCards.length;
         if (isTheFinalResetedCard) {
-          await patchCardDates(resetedCards[resetedCardsIndex], recallFeedback);
-          navigate("/decks");
-          setNotificationContent({
-            isNotificationShowing: true,
-            isOk: true,
-            msg: "Deck Study Completed",
-          });
-          return;
+          try {
+            await cardDatesMutation({
+              card: resetedCards[resetedCardsIndex],
+              recallFeedback,
+            });
+            navigate("/decks");
+            setNotificationContent({
+              isNotificationShowing: true,
+              isOk: true,
+              msg: "Deck Study Completed",
+            });
+            return;
+          } catch (err) {
+            const errMsg = (err as Error).message;
+
+            setNotificationContent({
+              isNotificationShowing: true,
+              isOk: false,
+              msg: errMsg,
+            });
+          }
         }
         setCardsCounter({
           ...cardsCounter,
@@ -91,14 +127,23 @@ const Study = () => {
         return;
       }
 
-      await patchCardDates(cards?.data?.[index], recallFeedback);
+      try {
+        await cardDatesMutation({ card: cards?.data?.[index], recallFeedback });
+        setCardsCounter({
+          ...cardsCounter,
+          [cardGroup]: cardsCounter[cardGroup] - 1,
+        });
 
-      setCardsCounter({
-        ...cardsCounter,
-        [cardGroup]: cardsCounter[cardGroup] - 1,
-      });
+        setIndex(index + 1);
+      } catch (err) {
+        const errMsg = (err as Error).message;
 
-      setIndex(index + 1);
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: false,
+          msg: errMsg,
+        });
+      }
     }
   };
 
@@ -118,24 +163,37 @@ const Study = () => {
     if (cards?.data) {
       const isTheFinalCard = index + 1 === cards?.data?.length;
 
-      await patchCardDates(cards?.data?.[index], "reset");
+      try {
+        await cardDatesMutation({
+          card: cards?.data?.[index],
+          recallFeedback: "reset",
+        });
 
-      if (isTheFinalCard) {
-        setIsResetedCardsBeingShown(true);
-      }
-      if (!isTheFinalCard) {
-        setIndex(index + 1);
-      }
-      setIsShowingAnswer(false);
-      const cardReseted = cards?.data?.[index];
-      const cardGroupBeforeReset = checkCardGroup(cardReseted);
+        if (isTheFinalCard) {
+          setIsResetedCardsBeingShown(true);
+        }
+        if (!isTheFinalCard) {
+          setIndex(index + 1);
+        }
+        setIsShowingAnswer(false);
+        const cardReseted = cards?.data?.[index];
+        const cardGroupBeforeReset = checkCardGroup(cardReseted);
 
-      setResetedCards([...resetedCards, cardReseted]);
-      setCardsCounter({
-        ...cardsCounter,
-        [cardGroupBeforeReset]: cardsCounter[cardGroupBeforeReset] - 1,
-        resetedCards: cardsCounter.resetedCards + 1,
-      });
+        setResetedCards([...resetedCards, cardReseted]);
+        setCardsCounter({
+          ...cardsCounter,
+          [cardGroupBeforeReset]: cardsCounter[cardGroupBeforeReset] - 1,
+          resetedCards: cardsCounter.resetedCards + 1,
+        });
+      } catch (err) {
+        const errMsg = (err as Error).message;
+
+        setNotificationContent({
+          isNotificationShowing: true,
+          isOk: false,
+          msg: errMsg,
+        });
+      }
     }
   };
 
@@ -213,6 +271,7 @@ const Study = () => {
   };
 
   useEffect(() => {
+    console.log(cards?.data?.[index]);
     if (index - 1 < 0) {
       setIsReturnOneCardDisable(true);
     } else {
@@ -365,12 +424,20 @@ const Study = () => {
             </div>
           </>
         ) : (
-          <button
-            className="py-2 px-4 rounded bg-primary-yellow min-w-[315px]"
-            onClick={() => setIsShowingAnswer(true)}
-          >
-            Show Answer
-          </button>
+          <>
+            {isLoading ? (
+              <span>
+                Sending card <LoadSpinner />
+              </span>
+            ) : (
+              <button
+                className="py-2 px-4 rounded bg-primary-yellow min-w-[315px]"
+                onClick={() => setIsShowingAnswer(true)}
+              >
+                Show Answer
+              </button>
+            )}
+          </>
         )}
       </div>
     </section>
