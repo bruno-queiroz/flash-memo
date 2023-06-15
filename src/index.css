@@ -76,3 +76,29 @@
     opacity: 0;
   }
 }
+.first-dot {
+  animation: dot-animation 1500ms infinite;
+}
+
+.second-dot {
+  animation: dot-animation 1500ms infinite;
+  animation-delay: 200ms;
+}
+
+.third-dot {
+  animation: dot-animation 1500ms infinite;
+  animation-delay: 300ms;
+}
+
+@keyframes dot-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
