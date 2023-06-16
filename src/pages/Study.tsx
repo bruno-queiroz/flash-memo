@@ -320,7 +320,7 @@ const Study = () => {
   };
 
   return (
-    <section className="flex flex-col items-center gap-4 p-4 min-h-[85vh]">
+    <section className="flex flex-col items-center gap-4 p-4 min-h-[85vh] max-w-[1300px] mx-auto">
       <EditCardModal />
       <CRUDNotification />
       <div className="flex items-center w-full md:w-[80%] justify-between text-lg font-semibold">
