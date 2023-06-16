@@ -24,7 +24,7 @@ const Decks = () => {
         Decks
       </h1>
 
-      <div className="flex flex-col gap-2 max-w-[900px] w-full">
+      <div className="flex flex-col gap-2 max-w-[1000px] w-full">
         {isLoading ? (
           <DeckSkeleton />
         ) : (
