@@ -45,7 +45,7 @@ const Header = () => {
   }, [isUserLogged]);
 
   return (
-    <header className="p-4">
+    <header className="max-w-[1100px] p-4 mx-auto">
       <div
         className={`${
           isNavActive ? "block" : "hidden"
