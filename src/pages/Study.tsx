@@ -15,6 +15,7 @@ import { useFlashMemoStore } from "../context/zustandStore";
 import EditCardModal from "../components/EditCardModal";
 import CRUDNotification from "../components/CRUDNotification";
 import LoadSpinner from "../components/LoadSpinner";
+import CardsCounterSkeleton from "../components/CardsCounterSkeleton";
 
 interface CardDatesMutation {
   card: Card;
@@ -35,9 +36,13 @@ const Study = () => {
   );
   const setCardEditData = useFlashMemoStore((state) => state.setCardEditData);
 
-  const { data: cards } = useQuery("studyDeck", () => getStudyDeck(deckName), {
-    cacheTime: 0,
-  });
+  const { data: cards, isLoading: studyDeckIsLoading } = useQuery(
+    "studyDeck",
+    () => getStudyDeck(deckName),
+    {
+      cacheTime: 0,
+    }
+  );
 
   const [cardsCounter, setCardsCounter] = useState<CardAmountGroups>({
     resetedCards: 0,
@@ -319,11 +324,15 @@ const Study = () => {
       <EditCardModal />
       <CRUDNotification />
       <div className="flex items-center w-full md:w-[80%] justify-between text-lg font-semibold">
-        <div className="flex gap-1">
-          <span className="text-[#05668d]">{cardsCounter.newCards}</span>
-          <span className="text-[#00a5cf]">{cardsCounter.resetedCards}</span>
-          <span className="text-[#25a18e]">{cardsCounter.reviewCards}</span>
-        </div>
+        {studyDeckIsLoading ? (
+          <CardsCounterSkeleton />
+        ) : (
+          <div className="flex gap-1">
+            <span className="text-[#05668d]">{cardsCounter.newCards}</span>
+            <span className="text-[#00a5cf]">{cardsCounter.resetedCards}</span>
+            <span className="text-[#25a18e]">{cardsCounter.reviewCards}</span>
+          </div>
+        )}
         <div className="flex gap-4">
           <button
             className="py-[6px] px-4 bg-gray-200 dark:text-gray-300 dark:bg-neutral-900 rounded"
@@ -344,9 +353,15 @@ const Study = () => {
       <div className="mx-auto w-full md:max-w-[80%]">
         <div className="flex flex-col gap-4  shadow-md w-full p-4 rounded-tl-md rounded-tr-md text-center bg-gray-200 dark:bg-neutral-900 dark:text-gray-300 ">
           <h2 className="py-2 font-semibold text-lg">
-            {isResetedCardsBeingShown
-              ? resetedCards[resetedCardsIndex]?.front
-              : cards?.data?.[index]?.front}
+            {studyDeckIsLoading ? (
+              <div className="h-[12px] w-[200px] bg-gray-500 mx-auto" />
+            ) : (
+              <>
+                {isResetedCardsBeingShown
+                  ? resetedCards[resetedCardsIndex]?.front
+                  : cards?.data?.[index]?.front}
+              </>
+            )}
           </h2>
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
         </div>
@@ -433,8 +448,9 @@ const Study = () => {
               <button
                 className="py-2 px-4 rounded bg-primary-yellow min-w-[315px]"
                 onClick={() => setIsShowingAnswer(true)}
+                disabled={studyDeckIsLoading}
               >
-                Show Answer
+                {studyDeckIsLoading ? <LoadSpinner /> : "Show Answer"}
               </button>
             )}
           </>
