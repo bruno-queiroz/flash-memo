@@ -276,7 +276,6 @@ const Study = () => {
   };
 
   useEffect(() => {
-    console.log(cards?.data?.[index]);
     if (index - 1 < 0) {
       setIsReturnOneCardDisable(true);
     } else {
@@ -319,6 +318,16 @@ const Study = () => {
     }
   };
 
+  const dynamicCard = isResetedCardsBeingShown
+    ? resetedCards[resetedCardsIndex]
+    : cards?.data?.[index];
+
+  let cardGroup = "";
+
+  if (dynamicCard) {
+    cardGroup = checkCardGroup(dynamicCard);
+  }
+
   return (
     <section className="flex flex-col items-center gap-4 p-4 min-h-[85vh] max-w-[1300px] mx-auto">
       <EditCardModal />
@@ -328,9 +337,34 @@ const Study = () => {
           <CardsCounterSkeleton />
         ) : (
           <div className="flex gap-1">
-            <span className="text-[#05668d]">{cardsCounter.newCards}</span>
-            <span className="text-[#00a5cf]">{cardsCounter.resetedCards}</span>
-            <span className="text-[#25a18e]">{cardsCounter.reviewCards}</span>
+            <span
+              className={`text-[#05668d] px-2 ${
+                cardGroup === "newCards" &&
+                !isResetedCardsBeingShown &&
+                "border-gray-400 dark:border-gray-300 border-[2px]"
+              }`}
+            >
+              {cardsCounter.newCards}
+            </span>
+            <span
+              className={`text-[#00a5cf] px-2 ${
+                (cardGroup === "resetedCards" &&
+                  "border-gray-400 dark:border-gray-300 border-[2px]") ||
+                (isResetedCardsBeingShown &&
+                  "border-gray-400 dark:border-gray-300 border-[2px]")
+              }`}
+            >
+              {cardsCounter.resetedCards}
+            </span>
+            <span
+              className={`text-[#25a18e] px-2 ${
+                cardGroup === "reviewCards" &&
+                !isResetedCardsBeingShown &&
+                "border-gray-400 dark:border-gray-300 border-[2px]"
+              }`}
+            >
+              {cardsCounter.reviewCards}
+            </span>
           </div>
         )}
         <div className="flex gap-4">
@@ -356,11 +390,7 @@ const Study = () => {
             {studyDeckIsLoading ? (
               <div className="h-[12px] w-[200px] bg-gray-500 mx-auto" />
             ) : (
-              <>
-                {isResetedCardsBeingShown
-                  ? resetedCards[resetedCardsIndex]?.front
-                  : cards?.data?.[index]?.front}
-              </>
+              <>{dynamicCard?.front}</>
             )}
           </h2>
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
@@ -371,9 +401,7 @@ const Study = () => {
           }`}
         >
           <p className={`${isShowingAnswer ? "block" : "hidden"}`}>
-            {isResetedCardsBeingShown
-              ? resetedCards?.[resetedCardsIndex]?.back
-              : cards?.data?.[index]?.back}
+            {dynamicCard?.back}
           </p>
         </div>
       </div>
