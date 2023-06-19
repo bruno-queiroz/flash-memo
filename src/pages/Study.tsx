@@ -64,6 +64,7 @@ const Study = () => {
       const cardGroup = checkCardGroup(cards?.data?.[index]);
 
       const isTheFinalCard = index + 1 === cards?.data?.length;
+
       if (isTheFinalCard) {
         if (resetedCards.length === 0) {
           try {
@@ -89,12 +90,26 @@ const Study = () => {
           }
         }
         if (cardsCounter[cardGroup] === 1) {
-          setCardsCounter({
-            ...cardsCounter,
-            [cardGroup]: cardsCounter[cardGroup] - 1,
-          });
-          setIsResetedCardsBeingShown(true);
-          return;
+          try {
+            await cardDatesMutation({
+              card: cards?.data?.[index],
+              recallFeedback,
+            });
+            setCardsCounter({
+              ...cardsCounter,
+              [cardGroup]: cardsCounter[cardGroup] - 1,
+            });
+            setIsResetedCardsBeingShown(true);
+            return;
+          } catch (err) {
+            const errMsg = (err as Error).message;
+
+            setNotificationContent({
+              isNotificationShowing: true,
+              isOk: false,
+              msg: errMsg,
+            });
+          }
         }
 
         const isTheFinalResetedCard =
