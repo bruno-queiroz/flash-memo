@@ -44,7 +44,7 @@ const SignIn = () => {
   return (
     <section className="flex flex-col items-center justify-center p-4">
       <SessionExpiredModal />
-      <h1 className="text-4xl font-bold my-8 dark:text-aqua-blue text-dark-blue text-center">
+      <h1 className="text-4xl font-bold my-8 dark:text-white text-dark-blue text-center">
         Sign In
       </h1>
 
@@ -56,7 +56,7 @@ const SignIn = () => {
           required
           ref={passwordInputRef}
         />
-        <button className="bg-primary-yellow py-2 px-4 min-w-[80px] rounded w-[max-content] mx-auto mt-4 text-white">
+        <button className="bg-primary-yellow py-2 px-4 min-w-[80px] rounded w-[max-content] mx-auto mt-4 text-white font-semibold">
           {isLoading ? <LoadSpinner /> : "Sign In"}
         </button>
         <LoginErrorMessage errorMessage={(error as Error)?.message} />
