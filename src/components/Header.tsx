@@ -8,6 +8,7 @@ import { IoCloseSharp as CloseIcon } from "react-icons/io5";
 import { GiHamburgerMenu as MenuIcon } from "react-icons/gi";
 import { useFlashMemoStore } from "../context/zustandStore";
 import { getLogOut } from "../fetch/getLogOut";
+import HeaderNavLink from "./HeaderNavLink";
 
 const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -80,46 +81,13 @@ const Header = () => {
               {isUserLogged ? (
                 <>
                   <li onClick={() => setIsNavActive(false)}>
-                    <NavLink
-                      to="/decks"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                          : ""
-                      }
-                    >
-                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                        Decks
-                      </div>
-                    </NavLink>
+                    <HeaderNavLink name="Decks" path="/decks" />
                   </li>
                   <li onClick={() => setIsNavActive(false)}>
-                    <NavLink
-                      to="/add"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                          : ""
-                      }
-                    >
-                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                        Add
-                      </div>
-                    </NavLink>
+                    <HeaderNavLink name="Add" path="/add" />
                   </li>
                   <li onClick={() => setIsNavActive(false)}>
-                    <NavLink
-                      to="/search"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "dark:text-aqua-blue text-dark-blue font-semibold"
-                          : ""
-                      }
-                    >
-                      <div className="p-3 relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                        Search
-                      </div>
-                    </NavLink>
+                    <HeaderNavLink name="Search" path="/search" />
                   </li>
                   <li
                     onClick={() => setIsNavActive(false)}
@@ -133,18 +101,7 @@ const Header = () => {
                   onClick={() => setIsNavActive(false)}
                   className="flex justify-end w-full"
                 >
-                  <NavLink
-                    to="/sign-in"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "dark:text-aqua-blue text-dark-blue font-semibold w-full"
-                        : ""
-                    }
-                  >
-                    <div className="p-3 text-center relative after:h-[4px] after:w-[0px] after:bg-dark-blue after:dark:bg-aqua-blue after:absolute after:bottom-0 after:left-0 after:transition-all hover:after:w-full">
-                      Sign in
-                    </div>
-                  </NavLink>
+                  <HeaderNavLink name="Sign In" path="/sign-in" />
                 </li>
               )}
             </ul>
