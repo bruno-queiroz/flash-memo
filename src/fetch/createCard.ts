@@ -1,4 +1,5 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export interface CardForm {
@@ -9,7 +10,7 @@ export interface CardForm {
 
 export const createCard = async (newCard: CardForm) => {
   try {
-    const response = await fetch(`http://localhost:3000/create-card`, {
+    const response = await fetch(`${baseUrl}/create-card`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

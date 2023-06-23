@@ -1,9 +1,10 @@
 import { UserForm } from "../pages/SignUp";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export const postSignUp = async (user: UserForm) => {
   try {
-    const response = await fetch(`http://localhost:3000/sign-up`, {
+    const response = await fetch(`${baseUrl}/sign-up`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export interface DeckStatusType {
@@ -14,7 +15,7 @@ export interface DeckStatusType {
 }
 
 export const getDecks = async () => {
-  const response = await fetch(`http://localhost:3000/get-decks`, {
+  const response = await fetch(`${baseUrl}/get-decks`, {
     credentials: "include",
   });
 

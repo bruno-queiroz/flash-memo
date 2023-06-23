@@ -5,6 +5,7 @@ import {
 } from "../utils/multiplyReviewTime";
 import { ServerResponse } from "./postSignIn";
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 
 export const patchCardDates = async (
   card: Card,
@@ -17,17 +18,14 @@ export const patchCardDates = async (
     wasCardReseted: recallFeedback === "reset",
   };
   try {
-    const response = await fetch(
-      `http://localhost:3000/patch-card-dates/${card?.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(cardDates),
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${baseUrl}/patch-card-dates/${card?.id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(cardDates),
+      credentials: "include",
+    });
     const data: ServerResponse<null> = await response.json();
 
     if (!data?.isOk) {

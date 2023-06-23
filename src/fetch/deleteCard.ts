@@ -1,15 +1,13 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export const deleteCard = async (cardId: string) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/delete-card/${cardId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${baseUrl}/delete-card/${cardId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
 
     const data: ServerResponse<null> = await response.json();
 

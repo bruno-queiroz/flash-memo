@@ -1,4 +1,5 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export interface Card {
@@ -20,7 +21,7 @@ export interface DeckStudy {
 }
 
 export const getStudyDeck = async (deckName: string | undefined) => {
-  const response = await fetch(`http://localhost:3000/study-deck/${deckName}`, {
+  const response = await fetch(`${baseUrl}/study-deck/${deckName}`, {
     credentials: "include",
   });
   const data: ServerResponse<Card[]> = await response.json();

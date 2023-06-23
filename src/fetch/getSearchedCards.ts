@@ -1,4 +1,5 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { DeckStudy } from "./getStudyDeck";
 import { ServerResponse } from "./postSignIn";
 
@@ -10,12 +11,9 @@ export const getSearchedCards = async (
     return;
   }
   try {
-    const response = await fetch(
-      `http://localhost:3000/search-cards/${deckId}/${query}`,
-      {
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${baseUrl}/search-cards/${deckId}/${query}`, {
+      credentials: "include",
+    });
 
     const data: ServerResponse<DeckStudy> = await response.json();
 

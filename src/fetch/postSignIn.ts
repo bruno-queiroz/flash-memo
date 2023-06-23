@@ -1,4 +1,5 @@
 import { UserForm } from "../pages/SignUp";
+import { baseUrl } from "./config";
 
 export interface ServerResponse<T> {
   isOk: boolean;
@@ -8,7 +9,7 @@ export interface ServerResponse<T> {
 
 export const postSignIn = async (user: UserForm) => {
   try {
-    const response = await fetch(`http://localhost:3000/sign-in`, {
+    const response = await fetch(`${baseUrl}/sign-in`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -18,6 +19,8 @@ export const postSignIn = async (user: UserForm) => {
     });
 
     const data: ServerResponse<UserForm> = await response.json();
+
+    console.log(data);
 
     if (!data?.isOk) {
       throw new Error(data?.msg);

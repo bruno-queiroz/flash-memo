@@ -1,5 +1,7 @@
+import { baseUrl } from "./config";
+
 export const getLogOut = async () => {
-  const response = await fetch(`http://localhost:3000/get-log-out`, {
+  const response = await fetch(`${baseUrl}/get-log-out`, {
     credentials: "include",
   });
 

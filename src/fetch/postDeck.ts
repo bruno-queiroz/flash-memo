@@ -1,4 +1,5 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export interface DeckForm {
@@ -7,7 +8,7 @@ export interface DeckForm {
 
 export const postDeck = async (newDeck: DeckForm) => {
   try {
-    const response = await fetch(`http://localhost:3000/create-deck`, {
+    const response = await fetch(`${baseUrl}/create-deck`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -17,6 +18,8 @@ export const postDeck = async (newDeck: DeckForm) => {
     });
 
     const data: ServerResponse<null> = await response.json();
+
+    console.log(data);
 
     if (!data?.isOk) {
       throw new Error(data?.msg);

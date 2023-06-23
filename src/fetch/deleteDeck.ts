@@ -1,15 +1,13 @@
 import { updateIsUserLogged } from "../utils/updateIsUserLogged";
+import { baseUrl } from "./config";
 import { ServerResponse } from "./postSignIn";
 
 export const deleteDeck = async (deckId: string) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/delete-deck/${deckId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${baseUrl}/delete-deck/${deckId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
 
     const data: ServerResponse<null> = await response.json();
 
