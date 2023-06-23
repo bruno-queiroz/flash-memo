@@ -1,6 +1,6 @@
 const DeckSkeleton = () => {
   return (
-    <div className="flex flex-col gap-2 max-w-[900px] w-full">
+    <div className="flex flex-col gap-2 max-w-[900px] w-full mx-auto">
       <div className="flex h-[56px] p-4 items-center rounded-lg dark:bg-neutral-900 shadow-sm bg-gray-200">
         <div className="flex flex-1">
           <span className="w-[130px] h-[7px] bg-gray-500"></span>
