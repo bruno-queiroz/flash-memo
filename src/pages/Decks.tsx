@@ -7,6 +7,7 @@ import DeleteDeckModal from "../components/DeleteDeckModal";
 import CRUDNotification from "../components/CRUDNotification";
 import EditDeckNameModal from "../components/EditDeckNameModal";
 import DeckSkeleton from "../components/DeckSkeleton";
+import NoDecks from "../components/NoDecks";
 
 const Decks = () => {
   const { data: decks, isLoading } = useQuery(["decksData"], () => getDecks());
@@ -28,7 +29,13 @@ const Decks = () => {
         {isLoading ? (
           <DeckSkeleton />
         ) : (
-          decks?.data?.map((deck) => <DeckStatus {...deck} key={deck.id} />)
+          <>
+            {decks?.data?.length === 0 ? (
+              <NoDecks />
+            ) : (
+              decks?.data?.map((deck) => <DeckStatus {...deck} key={deck.id} />)
+            )}
+          </>
         )}
       </div>
 
