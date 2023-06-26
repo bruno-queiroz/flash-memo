@@ -50,7 +50,7 @@ const Header = () => {
       <div
         className={`${
           isNavActive ? "block" : "hidden"
-        } fixed top-0 bottom-0 left-0 right-0 w-full h-full bg-[rgb(0,0,0,0.7)]`}
+        } fixed sm:hidden top-0 bottom-0 left-0 right-0 w-full h-full bg-[rgb(0,0,0,0.7)]`}
         onClick={() => setIsNavActive(false)}
       />
       <div className="flex items-center gap-4">
@@ -69,7 +69,7 @@ const Header = () => {
           <nav
             className={`${
               isNavActive ? "translate-x-0" : "translate-x-[100%]"
-            } flex flex-col transition-transform p-4 fixed right-0 h-full w-[50%] z-10 top-0 bottom-0 dark:bg-neutral-900 bg-gray-200 sm:dark:bg-neutral-800 reset-styles`}
+            } flex flex-col sm:flex-1 transition-transform p-4 fixed right-0 h-full w-[50%] z-10 top-0 bottom-0 dark:bg-neutral-900 bg-gray-200 sm:dark:bg-neutral-800 reset-styles`}
           >
             <button
               className="text-primary-yellow text-3xl font-bold ml-auto sm:hidden"
@@ -91,7 +91,7 @@ const Header = () => {
                   </li>
                   <li
                     onClick={() => setIsNavActive(false)}
-                    className="flex p-3"
+                    className="flex sm:flex-1 sm:justify-end p-3"
                   >
                     <button onClick={logOut}>Log Out</button>
                   </li>
