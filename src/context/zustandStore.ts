@@ -46,7 +46,7 @@ export const useFlashMemoStore = create<FlashMemoState>()((set) => ({
     deckId: "",
     deckName: "",
   },
-  isUserLogged: setIsUserLoggedInitialState(document.cookie),
+  isUserLogged: setIsUserLoggedInitialState(),
   isSessionExpiredModalOpen: false,
   isEditDeckNameModalOpen: false,
   isDarkMode: false,
