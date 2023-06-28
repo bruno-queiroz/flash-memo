@@ -1,10 +1,12 @@
-export const setIsUserLoggedInitialState = (cookie: string) => {
-  if (cookie.endsWith("true")) {
-    return true;
-  }
-  if (cookie.endsWith("false")) {
-    return false;
-  }
+export const setIsUserLoggedInitialState = () => {
+  const isUserLogged = localStorage.getItem("is-user-logged");
 
+  if (isUserLogged) {
+    if (isUserLogged === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  }
   return null;
 };
