@@ -6,5 +6,8 @@ export const getLogOut = async () => {
   });
 
   const data = await response.json();
+
+  localStorage.removeItem("is-user-logged");
+
   return data;
 };
