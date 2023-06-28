@@ -4,8 +4,10 @@ export const setIsUserLoggedInitialState = () => {
   if (isUserLogged) {
     if (isUserLogged === "true") {
       return true;
-    } else {
+    } else if (isUserLogged === "false") {
       return false;
+    } else {
+      return null;
     }
   }
   return null;
