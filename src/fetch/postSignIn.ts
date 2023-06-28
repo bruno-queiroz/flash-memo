@@ -5,6 +5,7 @@ export interface ServerResponse<T> {
   isOk: boolean;
   msg: string;
   data: T;
+  wasUserLogged?: boolean;
 }
 
 export const postSignIn = async (user: UserForm) => {
@@ -20,11 +21,11 @@ export const postSignIn = async (user: UserForm) => {
 
     const data: ServerResponse<UserForm> = await response.json();
 
-    console.log(data);
-
     if (!data?.isOk) {
       throw new Error(data?.msg);
     }
+
+    localStorage.setItem("is-user-logged", "true");
 
     return data;
   } catch (err) {

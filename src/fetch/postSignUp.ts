@@ -19,6 +19,8 @@ export const postSignUp = async (user: UserForm) => {
       throw new Error(data?.msg);
     }
 
+    localStorage.setItem("is-user-logged", "true");
+
     return data;
   } catch (err) {
     const errorMessage = (err as Error)?.message;
