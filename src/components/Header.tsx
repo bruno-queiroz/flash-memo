@@ -99,7 +99,7 @@ const Header = () => {
               ) : (
                 <li
                   onClick={() => setIsNavActive(false)}
-                  className="sm:flex sm:justify-end sm:flex-1"
+                  className="sm:flex sm:justify-end sm:flex-1 "
                 >
                   <HeaderNavLink name="Sign In" path="/sign-in" />
                 </li>
