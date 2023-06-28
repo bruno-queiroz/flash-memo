@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BsFillSunFill as SunIcon,
   BsFillMoonFill as MoonIcon,
