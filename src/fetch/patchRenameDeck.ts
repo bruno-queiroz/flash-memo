@@ -14,6 +14,7 @@ export const patchRenameDeck = async (deckId: string, deckName: string) => {
     });
 
     const data: ServerResponse<null> = await response.json();
+    updateIsUserLogged(data);
 
     if (!data?.isOk) {
       throw new Error(data?.msg);
@@ -23,7 +24,5 @@ export const patchRenameDeck = async (deckId: string, deckName: string) => {
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
-  } finally {
-    updateIsUserLogged(document.cookie);
   }
 };

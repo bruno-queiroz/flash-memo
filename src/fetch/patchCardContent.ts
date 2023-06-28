@@ -17,6 +17,8 @@ export const patchCardContent = async (
       credentials: "include",
     });
     const data: ServerResponse<null> = await response.json();
+    updateIsUserLogged(data);
+
     if (!data?.isOk) {
       throw new Error(data?.msg);
     }
@@ -26,7 +28,5 @@ export const patchCardContent = async (
     const errorMsg = (err as Error).message;
 
     throw new Error(errorMsg);
-  } finally {
-    updateIsUserLogged(document.cookie);
   }
 };

@@ -20,7 +20,7 @@ export const getDecks = async () => {
   });
 
   const data: ServerResponse<DeckStatusType[]> = await response.json();
-  updateIsUserLogged(document.cookie);
+  updateIsUserLogged(data);
 
   return data;
 };

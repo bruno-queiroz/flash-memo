@@ -16,6 +16,7 @@ export const getSearchedCards = async (
     });
 
     const data: ServerResponse<DeckStudy> = await response.json();
+    updateIsUserLogged(data);
 
     if (data?.data.cards.length === 0) {
       throw new Error("Card not found");
@@ -24,7 +25,5 @@ export const getSearchedCards = async (
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
-  } finally {
-    updateIsUserLogged(document.cookie);
   }
 };

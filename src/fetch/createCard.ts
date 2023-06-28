@@ -20,6 +20,7 @@ export const createCard = async (newCard: CardForm) => {
     });
 
     const data: ServerResponse<null> = await response.json();
+    updateIsUserLogged(data);
 
     if (!data?.isOk) {
       throw new Error(data?.msg);
@@ -28,7 +29,5 @@ export const createCard = async (newCard: CardForm) => {
   } catch (err) {
     const errorMsg = (err as Error).message;
     throw new Error(errorMsg);
-  } finally {
-    updateIsUserLogged(document.cookie);
   }
 };

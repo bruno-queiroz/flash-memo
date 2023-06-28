@@ -10,6 +10,7 @@ export const deleteCard = async (cardId: string) => {
     });
 
     const data: ServerResponse<null> = await response.json();
+    updateIsUserLogged(data);
 
     if (!data?.isOk) {
       throw new Error(data?.msg);
@@ -19,7 +20,5 @@ export const deleteCard = async (cardId: string) => {
   } catch (err) {
     const errorMessage = (err as Error).message;
     throw new Error(errorMessage);
-  } finally {
-    updateIsUserLogged(document.cookie);
   }
 };
