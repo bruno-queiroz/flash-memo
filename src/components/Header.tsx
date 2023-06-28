@@ -97,10 +97,7 @@ const Header = () => {
                   </li>
                 </>
               ) : (
-                <li
-                  onClick={() => setIsNavActive(false)}
-                  className="flex justify-end w-full"
-                >
+                <li onClick={() => setIsNavActive(false)}>
                   <HeaderNavLink name="Sign In" path="/sign-in" />
                 </li>
               )}
