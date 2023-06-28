@@ -1,5 +1,3 @@
-import React from "react";
-
 const CardsCounterSkeleton = () => {
   return (
     <div className="flex gap-1">

@@ -9,7 +9,6 @@ import { useFlashMemoStore } from "../context/zustandStore";
 
 const EditCardModal = () => {
   const isEditModalOpen = useFlashMemoStore((state) => state.isEditModalOpen);
-  const isUserLogged = useFlashMemoStore((state) => state.isUserLogged);
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
