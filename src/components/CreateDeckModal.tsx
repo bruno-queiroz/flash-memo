@@ -4,6 +4,7 @@ import Input from "./Input";
 import { useMutation, useQueryClient } from "react-query";
 import { DeckForm, postDeck } from "../fetch/postDeck";
 import { useFlashMemoStore } from "../context/zustandStore";
+import LoadSpinner from "./LoadSpinner";
 
 const DIALOG_ANIMATION_TIME = 150;
 
@@ -21,7 +22,7 @@ const CreateDeckModal = () => {
   const deckNameRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
-  const { mutateAsync: createDeckMutate } = useMutation(
+  const { mutateAsync: createDeckMutate, isLoading } = useMutation(
     (newDeck: DeckForm) => postDeck(newDeck),
     {
       onSuccess: () => {
@@ -80,8 +81,8 @@ const CreateDeckModal = () => {
           required
           ref={deckNameRef}
         />
-        <button className="bg-primary-yellow py-2 px-4 rounded w-[max-content] mx-auto mt-4 text-white">
-          Create
+        <button className="bg-primary-yellow py-2 px-4 rounded min-w-[80px] mx-auto mt-4 text-white">
+          {isLoading ? <LoadSpinner /> : "Create"}
         </button>{" "}
       </form>
     </ModalContainer>
