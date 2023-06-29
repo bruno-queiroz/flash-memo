@@ -43,7 +43,7 @@ const ModalContainer = ({
       <dialog
         open={isDialogOpen}
         onAnimationEnd={dialogAnimationEnd}
-        className={`fixed max-w-[500px] w-full dark:bg-neutral-800 dark:text-white rounded top-0 z-10 ${
+        className={`fixed max-w-[500px] w-[95%] dark:bg-neutral-800 dark:text-white rounded top-0 z-10 ${
           isModalOpen ? "show-modal-animation" : "close-modal-animation"
         }`}
       >
