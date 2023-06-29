@@ -1,10 +1,10 @@
 const LoadDot = () => {
   return (
     <div>
-      <div className="flex gap-2 justify-center">
-        <div className="w-[25px] h-[25px] rounded-full bg-aqua-blue first-dot"></div>
-        <div className="w-[25px] h-[25px] rounded-full bg-aqua-blue second-dot"></div>
-        <div className="w-[25px] h-[25px] rounded-full bg-aqua-blue third-dot"></div>
+      <div className="flex gap-2 justify-center mt-8">
+        <div className="w-5 h-5 rounded-full bg-primary-yellow first-dot"></div>
+        <div className="w-5 h-5 rounded-full bg-primary-yellow second-dot"></div>
+        <div className="w-5 h-5 rounded-full bg-primary-yellow third-dot"></div>
       </div>
     </div>
   );
