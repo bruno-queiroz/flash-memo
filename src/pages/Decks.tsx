@@ -41,6 +41,7 @@ const Decks = () => {
 
       <button
         type="button"
+        disabled={isLoading}
         className="bg-primary-yellow py-2 px-4 rounded w-[max-content] mx-auto mt-4 text-white font-semibold"
         onClick={() => setIsCreateDeckModalOpen(true)}
       >
