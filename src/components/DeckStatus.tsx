@@ -63,11 +63,11 @@ export const DeckStatus = ({ name, cards, id }: DeckStatusType) => {
     }
   };
   return (
-    <article className="flex items-center  rounded-lg dark:bg-neutral-900 shadow-md bg-gray-200">
+    <article className="flex items-center rounded-lg text-neutral-800 dark:text-gray-300 dark:bg-neutral-900 shadow-md bg-gray-200">
       <Link
         to={`/study/${name}`}
         onClick={checkDeckCardsAvailability}
-        className="flex-1 p-4 dark:hover:bg-neutral-950 hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
+        className="flex-1 p-4 dark:hover:bg-neutral-950 font-semibold hover:bg-gray-300 transition-colors rounded-tl-lg rounded-bl-lg"
       >
         {name}
       </Link>

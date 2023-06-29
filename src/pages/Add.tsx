@@ -74,7 +74,7 @@ const Add = () => {
 
   return (
     <section className="flex gap-4 flex-col p-4 items-center dark:text-gray-300 text-black">
-      <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-white">
+      <h1 className="font-bold text-center text-4xl text-neutral-800 dark:text-white">
         Add
       </h1>
       <CRUDNotification />

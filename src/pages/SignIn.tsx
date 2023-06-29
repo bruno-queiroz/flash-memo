@@ -44,7 +44,7 @@ const SignIn = () => {
   return (
     <section className="flex flex-col items-center justify-center p-4">
       <SessionExpiredModal />
-      <h1 className="text-4xl font-bold my-8 dark:text-white text-dark-blue text-center">
+      <h1 className="text-4xl font-bold my-8 dark:text-white text-neutral-800 text-center">
         Sign In
       </h1>
 

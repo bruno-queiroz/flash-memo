@@ -39,7 +39,7 @@ const Search = () => {
       <EditCardModal />
 
       <section className="flex flex-col items-center p-4 dark:text-gray-300 text-black">
-        <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-white">
+        <h1 className="font-bold text-center text-4xl text-neutral-800 dark:text-white">
           Search a Card
         </h1>
         <div className="max-w-[900px] w-full">

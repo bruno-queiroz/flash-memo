@@ -21,7 +21,7 @@ const Decks = () => {
       <DeleteDeckModal />
       <CreateDeckModal />
       <EditDeckNameModal />
-      <h1 className="font-bold text-center text-4xl text-dark-blue dark:text-white">
+      <h1 className="font-bold text-center text-4xl text-neutral-800 dark:text-white">
         Decks
       </h1>
 
