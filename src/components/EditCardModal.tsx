@@ -107,7 +107,7 @@ const EditCardModal = () => {
         }}
       >
         <Form className="flex flex-col items-center gap-4" onSubmit={editCard}>
-          <h2 className="font-semibold text-center text-2xl text-dark-blue dark:text-white">
+          <h2 className="font-semibold text-center text-2xl text-neutral-800 dark:text-white">
             Edit Card
           </h2>
           <label className="flex flex-col gap-2 w-full">
@@ -115,7 +115,7 @@ const EditCardModal = () => {
             <textarea
               required
               ref={cardFrontInputRef}
-              className="dark:bg-neutral-900 bg-white p-2"
+              className="dark:bg-neutral-900 bg-gray-300 p-2"
             />
           </label>
           <label className="flex flex-col gap-2 w-full">
@@ -123,7 +123,7 @@ const EditCardModal = () => {
             <textarea
               required
               ref={cardBackInputRef}
-              className="dark:bg-neutral-900 bg-white p-2"
+              className="dark:bg-neutral-900 bg-gray-300 p-2"
             />
           </label>
           <button className="bg-primary-yellow py-2 px-4 rounded w-[80px] mx-auto mt-4 text-white">
