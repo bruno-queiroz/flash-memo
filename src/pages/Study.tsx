@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, getStudyDeck } from "../fetch/getStudyDeck";
@@ -16,6 +16,7 @@ import EditCardModal from "../components/EditCardModal";
 import CRUDNotification from "../components/CRUDNotification";
 import LoadSpinner from "../components/LoadSpinner";
 import CardsCounterSkeleton from "../components/CardsCounterSkeleton";
+import { formatText } from "../utils/formatText";
 
 interface CardDatesMutation {
   card: Card;
@@ -343,6 +344,9 @@ const Study = () => {
     cardGroup = checkCardGroup(dynamicCard);
   }
 
+  const frontTextFormated = formatText(dynamicCard?.front);
+  const backTextFormated = formatText(dynamicCard?.back);
+
   return (
     <section className="flex flex-col items-center gap-4 p-4 min-h-[85vh] max-w-[1300px] mx-auto">
       <EditCardModal />
@@ -399,13 +403,20 @@ const Study = () => {
         </div>
       </div>
 
-      <div className="mx-auto w-full md:max-w-[80%]">
+      <div className="mx-auto w-full md:max-w-[80%] whitespace-pre-wrap">
         <div className="flex flex-col gap-4  shadow-md w-full p-4 rounded-tl-md rounded-tr-md text-center bg-gray-200 dark:bg-neutral-900 dark:text-gray-300 ">
           <h2 className="py-2 font-semibold text-lg">
             {studyDeckIsLoading ? (
               <div className="h-[12px] w-[200px] bg-gray-500 mx-auto" />
             ) : (
-              <>{dynamicCard?.front}</>
+              <>
+                {frontTextFormated.map((front, index) => (
+                  <Fragment key={index}>
+                    {front}
+                    <br />
+                  </Fragment>
+                ))}
+              </>
             )}
           </h2>
           <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700 pb-2"></div>
@@ -416,7 +427,12 @@ const Study = () => {
           }`}
         >
           <p className={`${isShowingAnswer ? "block" : "hidden"}`}>
-            {dynamicCard?.back}
+            {backTextFormated.map((back, index) => (
+              <Fragment key={index}>
+                {back}
+                <br />
+              </Fragment>
+            ))}
           </p>
         </div>
       </div>
