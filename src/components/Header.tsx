@@ -9,6 +9,7 @@ import { GiHamburgerMenu as MenuIcon } from "react-icons/gi";
 import { useFlashMemoStore } from "../context/zustandStore";
 import { getLogOut } from "../fetch/getLogOut";
 import HeaderNavLink from "./HeaderNavLink";
+import { useMutation } from "react-query";
 
 const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -19,6 +20,8 @@ const Header = () => {
   );
   const isDarkMode = useFlashMemoStore((state) => state.isDarkMode);
   const setIsDarkMode = useFlashMemoStore((state) => state.setIsDarkMode);
+
+  const { isLoading, mutateAsync: logOutMutate } = useMutation(getLogOut);
 
   const navigate = useNavigate();
 
@@ -31,7 +34,7 @@ const Header = () => {
   };
 
   const logOut = async () => {
-    await getLogOut();
+    await logOutMutate();
     setIsUserLogged(null);
   };
 
@@ -93,7 +96,9 @@ const Header = () => {
                     onClick={() => setIsNavActive(false)}
                     className="flex sm:flex-1 sm:justify-end p-3"
                   >
-                    <button onClick={logOut}>Log Out</button>
+                    <button onClick={logOut}>
+                      {isLoading ? "Logging out..." : "Log Out"}
+                    </button>
                   </li>
                 </>
               ) : (
