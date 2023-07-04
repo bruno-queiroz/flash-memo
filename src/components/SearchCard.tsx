@@ -5,6 +5,8 @@ import { useFlashMemoStore } from "../context/zustandStore";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteCard } from "../fetch/deleteCard";
 import LoadSpinner from "./LoadSpinner";
+import { formatText } from "../utils/formatText";
+import { Fragment } from "react";
 
 const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const queryClient = useQueryClient();
@@ -51,14 +53,27 @@ const SearchCard = ({ front, back, reviewAt, id }: Card) => {
   const isCardAvailable =
     new Date().getTime() < new Date(ReviewAtNotNull).getTime();
 
+  const frontTextFormated = formatText(front);
+  const backTextFormated = formatText(back);
+
   return (
     <article className="bg-gray-200 dark:bg-neutral-900 rounded px-4 pb-4">
       <div className="py-4">
-        <h2>{front}</h2>
+        {frontTextFormated.map((front, index) => (
+          <Fragment key={index}>
+            {front}
+            <br />
+          </Fragment>
+        ))}
       </div>
       <div className="border-b-2 border-b-gray-400 dark:border-b-neutral-700" />
       <div className="py-4">
-        <p>{back}</p>
+        {backTextFormated.map((back, index) => (
+          <Fragment key={index}>
+            {back}
+            <br />
+          </Fragment>
+        ))}
       </div>
       <div className="flex justify-between items-center">
         <div className="flex gap-4">
