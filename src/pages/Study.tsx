@@ -17,6 +17,7 @@ import CRUDNotification from "../components/CRUDNotification";
 import LoadSpinner from "../components/LoadSpinner";
 import CardsCounterSkeleton from "../components/CardsCounterSkeleton";
 import { formatText } from "../utils/formatText";
+import SendCardLoading from "../components/SendCardLoading";
 
 interface CardDatesMutation {
   card: Card;
@@ -500,9 +501,7 @@ const Study = () => {
         ) : (
           <>
             {isLoading ? (
-              <span>
-                Sending card <LoadSpinner />
-              </span>
+              <SendCardLoading />
             ) : (
               <button
                 className="py-2 px-4 rounded bg-primary-yellow min-w-[315px]"
