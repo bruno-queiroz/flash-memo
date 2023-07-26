@@ -15,12 +15,22 @@ export interface DeckStatusType {
 }
 
 export const getDecks = async () => {
-  const response = await fetch(`${baseUrl}/get-decks`, {
-    credentials: "include",
-  });
+  try {
+    const response = await fetch(`${baseUrl}/get-decks`, {
+      credentials: "include",
+    });
 
-  const data: ServerResponse<DeckStatusType[]> = await response.json();
-  updateIsUserLogged(data);
+    const data: ServerResponse<DeckStatusType[]> = await response.json();
+    updateIsUserLogged(data);
 
-  return data;
+    if (!data?.isOk) {
+      throw new Error(data?.msg);
+    }
+
+    return data;
+  } catch (err) {
+    const errorMsg = (err as Error).message;
+
+    throw new Error(errorMsg);
+  }
 };
