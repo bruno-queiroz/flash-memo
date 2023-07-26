@@ -7,10 +7,15 @@ import DeleteDeckModal from "../components/DeleteDeckModal";
 import CRUDNotification from "../components/CRUDNotification";
 import EditDeckNameModal from "../components/EditDeckNameModal";
 import DeckSkeleton from "../components/DeckSkeleton";
-import NoDecks from "../components/NoDecks";
+import NoDecks from "../components/DecksMessage";
+import DecksMessage from "../components/DecksMessage";
 
 const Decks = () => {
-  const { data: decks, isLoading } = useQuery(["decksData"], () => getDecks());
+  const {
+    data: decks,
+    isLoading,
+    isError,
+  } = useQuery(["decksData"], () => getDecks());
   const setIsCreateDeckModalOpen = useFlashMemoStore(
     (state) => state.setIsCreateDeckModalOpen
   );
@@ -31,7 +36,9 @@ const Decks = () => {
         ) : (
           <>
             {decks?.data?.length === 0 ? (
-              <NoDecks />
+              <DecksMessage message="Looks like you don't have a deck yet. Why don't you create one?" />
+            ) : isError ? (
+              <DecksMessage message="Something went wrong" />
             ) : (
               decks?.data?.map((deck) => <DeckStatus {...deck} key={deck.id} />)
             )}
