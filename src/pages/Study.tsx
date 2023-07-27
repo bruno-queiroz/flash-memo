@@ -29,10 +29,10 @@ const Study = () => {
   const setIsEditModalOpen = useFlashMemoStore(
     (state) => state.setIsEditModalOpen
   );
-  const { mutateAsync: cardDatesMutation, isLoading } = useMutation(
-    ({ card, recallFeedback }: CardDatesMutation) =>
+  const { mutateAsync: cardDatesMutation, isLoading: isMutateCardLoading } =
+    useMutation(({ card, recallFeedback }: CardDatesMutation) =>
       patchCardDates(card, recallFeedback)
-  );
+    );
   const setNotificationContent = useFlashMemoStore(
     (state) => state.setNotificationContent
   );
@@ -440,67 +440,72 @@ const Study = () => {
 
       <div className="flex gap-4 text-white mt-auto font-semibold ">
         {isShowingAnswer ? (
-          <>
-            <button
-              className="py-2 px-4 rounded bg-red-500 h-[max-content] mt-auto"
-              onClick={onReset}
-              disabled={
-                isResetedCardsBeingShown || cards?.data?.[index]?.wasCardReseted
-              }
-            >
-              reset
-            </button>
-            <div className="flex flex-col">
-              <span className="mx-auto mb-1 text-black dark:text-gray-300">
-                {estimateNextReviewTime(
-                  cards?.data?.[index]?.reviewAt,
-                  cards?.data?.[index]?.reviewAwaitTime,
-                  "hard"
-                )}
-              </span>
+          isMutateCardLoading ? (
+            <SendCardLoading />
+          ) : (
+            <>
               <button
-                className="py-2 px-4 rounded text-black bg-gray-300"
-                onClick={() => onHard("hard")}
+                className="py-2 px-4 rounded bg-red-500 h-[max-content] mt-auto"
+                onClick={onReset}
+                disabled={
+                  isResetedCardsBeingShown ||
+                  cards?.data?.[index]?.wasCardReseted
+                }
               >
-                hard
+                reset
               </button>
-            </div>
-            <div className="flex flex-col">
-              <span className=" mx-auto mb-1 text-[#00a5cf]">
-                {estimateNextReviewTime(
-                  cards?.data?.[index]?.reviewAt,
-                  cards?.data?.[index]?.reviewAwaitTime,
-                  "good"
-                )}
-              </span>
+              <div className="flex flex-col">
+                <span className="mx-auto mb-1 text-black dark:text-gray-300">
+                  {estimateNextReviewTime(
+                    cards?.data?.[index]?.reviewAt,
+                    cards?.data?.[index]?.reviewAwaitTime,
+                    "hard"
+                  )}
+                </span>
+                <button
+                  className="py-2 px-4 rounded text-black bg-gray-300"
+                  onClick={() => onHard("hard")}
+                >
+                  hard
+                </button>
+              </div>
+              <div className="flex flex-col">
+                <span className=" mx-auto mb-1 text-[#00a5cf]">
+                  {estimateNextReviewTime(
+                    cards?.data?.[index]?.reviewAt,
+                    cards?.data?.[index]?.reviewAwaitTime,
+                    "good"
+                  )}
+                </span>
 
-              <button
-                className="py-2 px-4 rounded bg-[#00a5cf]"
-                onClick={() => onGood("good")}
-              >
-                good
-              </button>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[#25a18e] mx-auto mb-1">
-                {estimateNextReviewTime(
-                  cards?.data?.[index]?.reviewAt,
-                  cards?.data?.[index]?.reviewAwaitTime,
-                  "easy"
-                )}
-              </span>
+                <button
+                  className="py-2 px-4 rounded bg-[#00a5cf]"
+                  onClick={() => onGood("good")}
+                >
+                  good
+                </button>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[#25a18e] mx-auto mb-1">
+                  {estimateNextReviewTime(
+                    cards?.data?.[index]?.reviewAt,
+                    cards?.data?.[index]?.reviewAwaitTime,
+                    "easy"
+                  )}
+                </span>
 
-              <button
-                className="py-2 px-4 rounded bg-[#25a18e]"
-                onClick={() => onEasy("easy")}
-              >
-                easy
-              </button>
-            </div>
-          </>
+                <button
+                  className="py-2 px-4 rounded bg-[#25a18e]"
+                  onClick={() => onEasy("easy")}
+                >
+                  easy
+                </button>
+              </div>
+            </>
+          )
         ) : (
           <>
-            {isLoading ? (
+            {isMutateCardLoading ? (
               <SendCardLoading />
             ) : (
               <button
