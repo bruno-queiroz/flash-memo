@@ -7,7 +7,6 @@ import DeleteDeckModal from "../components/DeleteDeckModal";
 import CRUDNotification from "../components/CRUDNotification";
 import EditDeckNameModal from "../components/EditDeckNameModal";
 import DeckSkeleton from "../components/DeckSkeleton";
-import NoDecks from "../components/DecksMessage";
 import DecksMessage from "../components/DecksMessage";
 
 const Decks = () => {
