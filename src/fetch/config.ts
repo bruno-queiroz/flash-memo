@@ -1,1 +1,1 @@
-export const baseUrl = "https://flash-memo-api.onrender.com";
+export const baseUrl = import.meta.env.VITE_API_URL;
