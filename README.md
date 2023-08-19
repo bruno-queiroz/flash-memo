@@ -1,5 +1,5 @@
 # Flash Memo
-This is a project inspired by the Anki website that developed to learn new technologies and put on my portfolio.
+This is a project inspired by the Anki website that I developed to learn new technologies and put on my portfolio.
 
 ## How to start the project
 1. Clone the project
