@@ -4,7 +4,7 @@ import { ServerResponse } from "./postSignIn";
 
 export const deleteCard = async (cardId: string) => {
   try {
-    const response = await fetch(`${baseUrl}/delete-card/${cardId}`, {
+    const response = await fetch(`${baseUrl}/card/${cardId}`, {
       method: "DELETE",
       credentials: "include",
     });
