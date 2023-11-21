@@ -11,7 +11,7 @@ export const getSearchedCards = async (
     return;
   }
   try {
-    const response = await fetch(`${baseUrl}/search-cards/${deckId}/${query}`, {
+    const response = await fetch(`${baseUrl}/card/${deckId}/${query}`, {
       credentials: "include",
     });
 
