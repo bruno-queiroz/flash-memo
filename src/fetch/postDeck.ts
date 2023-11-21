@@ -8,7 +8,7 @@ export interface DeckForm {
 
 export const postDeck = async (newDeck: DeckForm) => {
   try {
-    const response = await fetch(`${baseUrl}/create-deck`, {
+    const response = await fetch(`${baseUrl}/deck`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
