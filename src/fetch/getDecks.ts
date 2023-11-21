@@ -16,7 +16,7 @@ export interface DeckStatusType {
 
 export const getDecks = async () => {
   try {
-    const response = await fetch(`${baseUrl}/get-decks`, {
+    const response = await fetch(`${baseUrl}/deck`, {
       credentials: "include",
     });
 
