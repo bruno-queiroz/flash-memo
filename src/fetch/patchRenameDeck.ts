@@ -4,7 +4,7 @@ import { ServerResponse } from "./postSignIn";
 
 export const patchRenameDeck = async (deckId: string, deckName: string) => {
   try {
-    const response = await fetch(`${baseUrl}/rename-deck/${deckId}`, {
+    const response = await fetch(`${baseUrl}/deck/${deckId}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
