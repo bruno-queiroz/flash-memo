@@ -18,7 +18,7 @@ export const patchCardDates = async (
     wasCardReseted: recallFeedback === "reset",
   };
   try {
-    const response = await fetch(`${baseUrl}/patch-card-dates/${card?.id}`, {
+    const response = await fetch(`${baseUrl}/card-date/${card?.id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
