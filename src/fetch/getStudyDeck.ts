@@ -21,7 +21,7 @@ export interface DeckStudy {
 }
 
 export const getStudyDeck = async (deckName: string | undefined) => {
-  const response = await fetch(`${baseUrl}/study-deck/${deckName}`, {
+  const response = await fetch(`${baseUrl}/deck/${deckName}`, {
     credentials: "include",
   });
   const data: ServerResponse<Card[]> = await response.json();
