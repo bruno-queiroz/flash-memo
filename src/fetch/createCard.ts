@@ -10,7 +10,7 @@ export interface CardForm {
 
 export const createCard = async (newCard: CardForm) => {
   try {
-    const response = await fetch(`${baseUrl}/create-card`, {
+    const response = await fetch(`${baseUrl}/card`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
