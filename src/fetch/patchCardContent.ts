@@ -8,7 +8,7 @@ export const patchCardContent = async (
   cardId: string
 ) => {
   try {
-    const response = await fetch(`${baseUrl}/patch-card-content/${cardId}`, {
+    const response = await fetch(`${baseUrl}/card-content/${cardId}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
